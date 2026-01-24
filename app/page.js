@@ -20,7 +20,7 @@ import {
   Upload, FileText, CreditCard, FileCheck, FileX, Clock,
   CheckCircle2, XCircle, Building2, UserCircle, Mail, Hash,
   ChevronRight, Shield, Award, Briefcase, Send, Eye, Settings,
-  BarChart3, PieChart, TrendingUp, Calendar, Bell, Menu, X
+  BarChart3, PieChart, TrendingUp, Calendar, Bell, Menu, X, Download
 } from 'lucide-react'
 
 // Lottie animation URLs
@@ -48,6 +48,231 @@ const LottieAnimation = ({ url, className = '' }) => {
   }
 
   return <Lottie animationData={animationData} loop className={className} />
+}
+
+// PDF Generator function
+const generatePDF = async (request, feeStructures = []) => {
+  const { jsPDF } = await import('jspdf')
+  const doc = new jsPDF()
+  
+  const today = new Date().toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric'
+  })
+
+  if (request.serviceType === 'bonafide') {
+    // Bonafide Certificate
+    doc.setFontSize(20)
+    doc.setFont('helvetica', 'bold')
+    doc.text('BONAFIDE CERTIFICATE', 105, 30, { align: 'center' })
+    
+    doc.setFontSize(12)
+    doc.setFont('helvetica', 'normal')
+    
+    // Institute Header
+    doc.setFontSize(16)
+    doc.setFont('helvetica', 'bold')
+    doc.text('EduPortal Institute of Technology', 105, 50, { align: 'center' })
+    doc.setFontSize(10)
+    doc.setFont('helvetica', 'normal')
+    doc.text('(Affiliated to State University)', 105, 57, { align: 'center' })
+    doc.text('123 Education Lane, Knowledge City - 500001', 105, 63, { align: 'center' })
+    
+    doc.line(20, 70, 190, 70)
+    
+    doc.setFontSize(11)
+    doc.text(`Ref No: BON/${request.id?.substring(0, 8).toUpperCase()}`, 20, 85)
+    doc.text(`Date: ${today}`, 150, 85)
+    
+    doc.setFontSize(14)
+    doc.setFont('helvetica', 'bold')
+    doc.text('TO WHOM IT MAY CONCERN', 105, 105, { align: 'center' })
+    
+    doc.setFontSize(11)
+    doc.setFont('helvetica', 'normal')
+    
+    const content = `This is to certify that ${request.studentName || 'the student'} bearing Roll No. ${request.rollNo || 'N/A'} is a bonafide student of this institution, currently enrolled in the Department of ${request.department || 'N/A'}.
+
+The student's email ID registered with us is: ${request.studentEmail || 'N/A'}
+
+Purpose: ${request.details?.purpose || 'General Purpose'}
+
+This certificate is issued upon the request of the student for the purpose mentioned above.`
+
+    const splitContent = doc.splitTextToSize(content, 170)
+    doc.text(splitContent, 20, 125)
+    
+    doc.setFontSize(11)
+    doc.text('This certificate is valid for a period of 6 months from the date of issue.', 20, 185)
+    
+    doc.setFont('helvetica', 'bold')
+    doc.text('Academic Section', 150, 220)
+    doc.text('EduPortal Institute', 150, 227)
+    
+    doc.setFontSize(9)
+    doc.setFont('helvetica', 'italic')
+    doc.text('Note: This is a computer generated certificate.', 105, 270, { align: 'center' })
+    
+  } else if (request.serviceType === 'fee') {
+    // Fee Structure
+    doc.setFontSize(20)
+    doc.setFont('helvetica', 'bold')
+    doc.text('FEE STRUCTURE', 105, 30, { align: 'center' })
+    
+    // Institute Header
+    doc.setFontSize(16)
+    doc.text('EduPortal Institute of Technology', 105, 50, { align: 'center' })
+    doc.setFontSize(10)
+    doc.setFont('helvetica', 'normal')
+    doc.text('Academic Year 2025-26', 105, 57, { align: 'center' })
+    
+    doc.line(20, 65, 190, 65)
+    
+    doc.setFontSize(11)
+    doc.text(`Date: ${today}`, 150, 80)
+    doc.text(`Student: ${request.studentName || 'N/A'}`, 20, 80)
+    doc.text(`Roll No: ${request.rollNo || 'N/A'}`, 20, 87)
+    doc.text(`Department: ${request.department || 'N/A'}`, 20, 94)
+    doc.text(`Category: ${request.details?.category || 'General'}`, 20, 101)
+    doc.text(`Payment Mode: ${request.details?.paymentMode?.replace('_', ' ').toUpperCase() || 'N/A'}`, 20, 108)
+    
+    doc.line(20, 115, 190, 115)
+    
+    // Fee Table
+    const selectedFee = feeStructures.find(f => f.category === request.details?.category) || {
+      tuitionFee: 50000,
+      examFee: 5000,
+      libraryFee: 2000,
+      totalFee: 57000
+    }
+    
+    doc.setFontSize(12)
+    doc.setFont('helvetica', 'bold')
+    doc.text('Fee Breakdown', 105, 130, { align: 'center' })
+    
+    doc.setFontSize(11)
+    doc.setFont('helvetica', 'normal')
+    
+    // Table headers
+    doc.setFillColor(240, 240, 240)
+    doc.rect(30, 140, 150, 10, 'F')
+    doc.setFont('helvetica', 'bold')
+    doc.text('Particulars', 35, 147)
+    doc.text('Amount (INR)', 145, 147)
+    
+    doc.setFont('helvetica', 'normal')
+    doc.text('Tuition Fee', 35, 160)
+    doc.text(`₹ ${selectedFee.tuitionFee?.toLocaleString()}`, 145, 160)
+    
+    doc.text('Examination Fee', 35, 172)
+    doc.text(`₹ ${selectedFee.examFee?.toLocaleString()}`, 145, 172)
+    
+    doc.text('Library Fee', 35, 184)
+    doc.text(`₹ ${selectedFee.libraryFee?.toLocaleString()}`, 145, 184)
+    
+    doc.line(30, 192, 180, 192)
+    
+    doc.setFont('helvetica', 'bold')
+    doc.text('Total Fee', 35, 202)
+    doc.text(`₹ ${selectedFee.totalFee?.toLocaleString()}`, 145, 202)
+    
+    doc.setFontSize(10)
+    doc.setFont('helvetica', 'normal')
+    doc.text('* Fee is subject to change as per institute policy.', 30, 230)
+    doc.text('* Late fee of ₹500 will be charged after due date.', 30, 238)
+    
+    doc.setFont('helvetica', 'bold')
+    doc.text('Accounts Section', 150, 260)
+    doc.text('EduPortal Institute', 150, 267)
+    
+  } else if (request.serviceType === 'tc') {
+    // Transfer Certificate
+    doc.setFontSize(20)
+    doc.setFont('helvetica', 'bold')
+    doc.text('TRANSFER CERTIFICATE', 105, 30, { align: 'center' })
+    
+    doc.setFontSize(16)
+    doc.text('EduPortal Institute of Technology', 105, 50, { align: 'center' })
+    doc.setFontSize(10)
+    doc.setFont('helvetica', 'normal')
+    doc.text('123 Education Lane, Knowledge City - 500001', 105, 57, { align: 'center' })
+    
+    doc.line(20, 65, 190, 65)
+    
+    doc.setFontSize(11)
+    doc.text(`TC No: TC/${request.id?.substring(0, 8).toUpperCase()}`, 20, 80)
+    doc.text(`Date: ${today}`, 150, 80)
+    
+    doc.setFontSize(12)
+    doc.setFont('helvetica', 'bold')
+    doc.text('Student Details:', 20, 100)
+    
+    doc.setFont('helvetica', 'normal')
+    doc.text(`Name: ${request.studentName || 'N/A'}`, 30, 115)
+    doc.text(`Roll No: ${request.rollNo || 'N/A'}`, 30, 125)
+    doc.text(`Department: ${request.department || 'N/A'}`, 30, 135)
+    doc.text(`Email: ${request.studentEmail || 'N/A'}`, 30, 145)
+    
+    doc.text('Conduct: Good', 30, 160)
+    doc.text('Dues: Cleared', 30, 170)
+    doc.text('Remarks: None', 30, 180)
+    
+    const tcContent = `This is to certify that the above-named student was enrolled at this institution and is now being transferred at their own request. All dues have been cleared and no objection is raised for the transfer.`
+    
+    const splitTC = doc.splitTextToSize(tcContent, 170)
+    doc.text(splitTC, 20, 200)
+    
+    doc.setFont('helvetica', 'bold')
+    doc.text('Principal', 150, 250)
+    doc.text('EduPortal Institute', 150, 257)
+    
+  } else if (request.serviceType === 'noc') {
+    // NOC
+    doc.setFontSize(20)
+    doc.setFont('helvetica', 'bold')
+    doc.text('NO OBJECTION CERTIFICATE', 105, 30, { align: 'center' })
+    
+    doc.setFontSize(16)
+    doc.text('EduPortal Institute of Technology', 105, 50, { align: 'center' })
+    doc.setFontSize(10)
+    doc.setFont('helvetica', 'normal')
+    doc.text('123 Education Lane, Knowledge City - 500001', 105, 57, { align: 'center' })
+    
+    doc.line(20, 65, 190, 65)
+    
+    doc.setFontSize(11)
+    doc.text(`Ref No: NOC/${request.id?.substring(0, 8).toUpperCase()}`, 20, 80)
+    doc.text(`Date: ${today}`, 150, 80)
+    
+    doc.setFontSize(14)
+    doc.setFont('helvetica', 'bold')
+    doc.text('TO WHOM IT MAY CONCERN', 105, 100, { align: 'center' })
+    
+    doc.setFontSize(11)
+    doc.setFont('helvetica', 'normal')
+    
+    const nocContent = `This is to certify that we have no objection to ${request.studentName || 'the student'}, Roll No. ${request.rollNo || 'N/A'}, Department of ${request.department || 'N/A'}, participating in external activities, internships, competitions, or any other academic/professional engagements.
+
+The student is in good academic standing and has fulfilled all requirements as per institute regulations.
+
+This NOC is issued upon the request of the student.`
+    
+    const splitNOC = doc.splitTextToSize(nocContent, 170)
+    doc.text(splitNOC, 20, 120)
+    
+    doc.text('This certificate is valid for a period of 3 months from the date of issue.', 20, 190)
+    
+    doc.setFont('helvetica', 'bold')
+    doc.text('HOD / Dean', 150, 230)
+    doc.text('EduPortal Institute', 150, 237)
+  }
+  
+  // Save the PDF
+  const filename = `${request.serviceType}_${request.studentName?.replace(/\s+/g, '_') || 'certificate'}_${request.id?.substring(0, 8)}.pdf`
+  doc.save(filename)
+  
+  return filename
 }
 
 export default function App() {
@@ -82,6 +307,7 @@ export default function App() {
       fetchRequests()
       fetchStats()
       fetchServices()
+      fetchFeeStructures()
     } else if (user?.role === 'student') {
       fetchMyRequests()
       fetchFeeStructures()
@@ -151,7 +377,9 @@ export default function App() {
   }
 
   // Login handler
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    if (e) e.preventDefault()
+    
     if (!loginForm.userId || !loginForm.password) {
       toast.error('Please fill all required fields')
       return
@@ -174,6 +402,7 @@ export default function App() {
 
       if (!res.ok) {
         toast.error(data.error || 'Login failed')
+        setIsLoading(false)
         return
       }
 
@@ -315,6 +544,18 @@ export default function App() {
     }
   }
 
+  // Download PDF handler
+  const handleDownloadPDF = async (request) => {
+    try {
+      toast.info('Generating PDF...')
+      const filename = await generatePDF(request, feeStructures)
+      toast.success(`Downloaded: ${filename}`)
+    } catch (error) {
+      console.error('PDF generation error:', error)
+      toast.error('Failed to generate PDF')
+    }
+  }
+
   // Get status badge
   const getStatusBadge = (status) => {
     switch (status) {
@@ -338,6 +579,13 @@ export default function App() {
       case 'noc': return 'NOC'
       default: return type
     }
+  }
+
+  // Close login modal handler
+  const handleCloseLoginModal = () => {
+    setShowLoginModal(false)
+    setSelectedRole(null)
+    setLoginForm({ userId: '', password: '', name: '' })
   }
 
   // ============ RENDER COMPONENTS ============
@@ -773,8 +1021,13 @@ export default function App() {
                         <p className="text-sm text-muted-foreground">{getServiceName(req.serviceType)}</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
                       {getStatusBadge(req.status)}
+                      {req.status === 'approved' && (
+                        <Button size="sm" variant="outline" onClick={() => handleDownloadPDF(req)}>
+                          <Download className="w-4 h-4" />
+                        </Button>
+                      )}
                       <Button size="sm" variant="ghost" onClick={() => setRequestDetailDialog(req)}>
                         <Eye className="w-4 h-4" />
                       </Button>
@@ -936,6 +1189,11 @@ Jane Smith,jane@example.com,CS002,Computer Science"
                                     <Button size="sm" variant="ghost" onClick={() => setRequestDetailDialog(req)}>
                                       <Eye className="w-4 h-4" />
                                     </Button>
+                                    {req.status === 'approved' && (
+                                      <Button size="sm" variant="outline" className="text-green-600" onClick={() => handleDownloadPDF(req)}>
+                                        <Download className="w-4 h-4" />
+                                      </Button>
+                                    )}
                                     {req.status === 'pending' && (
                                       <>
                                         <Button size="sm" variant="ghost" className="text-green-600" onClick={() => handleUpdateRequest(req.id, 'approved')}>
@@ -1053,7 +1311,14 @@ Jane Smith,jane@example.com,CS002,Computer Science"
                         {new Date(req.createdAt).toLocaleDateString()} - {new Date(req.createdAt).toLocaleTimeString()}
                       </p>
                     </div>
-                    {getStatusBadge(req.status)}
+                    <div className="flex items-center gap-2">
+                      {getStatusBadge(req.status)}
+                      {req.status === 'approved' && (
+                        <Button size="sm" variant="outline" onClick={() => handleDownloadPDF(req)}>
+                          <Download className="w-4 h-4 mr-1" /> Download
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -1218,6 +1483,7 @@ Jane Smith,jane@example.com,CS002,Computer Science"
                       <TableHead>Details</TableHead>
                       <TableHead>Date</TableHead>
                       <TableHead>Status</TableHead>
+                      <TableHead>Action</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -1229,6 +1495,13 @@ Jane Smith,jane@example.com,CS002,Computer Science"
                         </TableCell>
                         <TableCell>{new Date(req.createdAt).toLocaleDateString()}</TableCell>
                         <TableCell>{getStatusBadge(req.status)}</TableCell>
+                        <TableCell>
+                          {req.status === 'approved' && (
+                            <Button size="sm" variant="outline" onClick={() => handleDownloadPDF(req)}>
+                              <Download className="w-4 h-4 mr-1" /> PDF
+                            </Button>
+                          )}
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -1241,10 +1514,14 @@ Jane Smith,jane@example.com,CS002,Computer Science"
     </div>
   )
 
-  // Login Modal
+  // Login Modal - Fixed version
   const LoginModal = () => (
-    <Dialog open={showLoginModal} onOpenChange={setShowLoginModal}>
-      <DialogContent className="sm:max-w-lg">
+    <Dialog open={showLoginModal} onOpenChange={(open) => {
+      if (!open) {
+        handleCloseLoginModal()
+      }
+    }}>
+      <DialogContent className="sm:max-w-lg" onPointerDownOutside={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle className="text-2xl">Login to EduPortal</DialogTitle>
           <DialogDescription>
@@ -1261,7 +1538,7 @@ Jane Smith,jane@example.com,CS002,Computer Science"
             ].map((item) => (
               <Card 
                 key={item.role} 
-                className="cursor-pointer hover:border-primary transition-colors"
+                className="cursor-pointer hover:border-primary hover:shadow-md transition-all"
                 onClick={() => setSelectedRole(item.role)}
               >
                 <CardHeader className="flex-row items-center gap-4 py-4">
@@ -1278,16 +1555,18 @@ Jane Smith,jane@example.com,CS002,Computer Science"
             ))}
           </div>
         ) : (
-          <div className="grid gap-4 py-4">
+          <form onSubmit={handleLogin} className="grid gap-4 py-4">
             <div className="grid gap-2">
               <Label htmlFor="userId">
                 {selectedRole === 'student' ? 'Email ID' : 'User ID'}
               </Label>
               <Input
                 id="userId"
+                type={selectedRole === 'student' ? 'email' : 'text'}
                 placeholder={selectedRole === 'student' ? 'your.email@example.com' : 'Enter your user ID'}
                 value={loginForm.userId}
                 onChange={(e) => setLoginForm({ ...loginForm, userId: e.target.value })}
+                autoComplete="username"
               />
             </div>
             <div className="grid gap-2">
@@ -1298,6 +1577,7 @@ Jane Smith,jane@example.com,CS002,Computer Science"
                 placeholder={selectedRole === 'student' ? 'student@123' : 'Enter your password'}
                 value={loginForm.password}
                 onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+                autoComplete="current-password"
               />
               {selectedRole === 'student' && (
                 <p className="text-xs text-muted-foreground">Default password: student@123</p>
@@ -1311,24 +1591,29 @@ Jane Smith,jane@example.com,CS002,Computer Science"
                   placeholder="Enter your name"
                   value={loginForm.name}
                   onChange={(e) => setLoginForm({ ...loginForm, name: e.target.value })}
+                  autoComplete="name"
                 />
               </div>
             )}
-          </div>
+            
+            <DialogFooter className="gap-2 sm:gap-0 pt-4">
+              <Button type="button" variant="outline" onClick={() => setSelectedRole(null)}>
+                Back
+              </Button>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? 'Logging in...' : 'Login'}
+              </Button>
+            </DialogFooter>
+          </form>
         )}
 
-        <DialogFooter className="gap-2 sm:gap-0">
-          {selectedRole && (
-            <Button variant="outline" onClick={() => setSelectedRole(null)}>
-              Back
+        {!selectedRole && (
+          <DialogFooter>
+            <Button variant="outline" onClick={handleCloseLoginModal}>
+              Cancel
             </Button>
-          )}
-          {selectedRole && (
-            <Button onClick={handleLogin} disabled={isLoading}>
-              {isLoading ? 'Logging in...' : 'Login'}
-            </Button>
-          )}
-        </DialogFooter>
+          </DialogFooter>
+        )}
       </DialogContent>
     </Dialog>
   )
@@ -1336,7 +1621,7 @@ Jane Smith,jane@example.com,CS002,Computer Science"
   // Service Request Dialog
   const ServiceDialog = () => (
     <Dialog open={showServiceDialog} onOpenChange={setShowServiceDialog}>
-      <DialogContent>
+      <DialogContent onPointerDownOutside={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>{getServiceName(activeService)} Request</DialogTitle>
           <DialogDescription>
@@ -1430,7 +1715,7 @@ Jane Smith,jane@example.com,CS002,Computer Science"
   // Request Detail Dialog (for Academic)
   const RequestDetailModal = () => (
     <Dialog open={!!requestDetailDialog} onOpenChange={() => setRequestDetailDialog(null)}>
-      <DialogContent>
+      <DialogContent onPointerDownOutside={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>Request Details</DialogTitle>
         </DialogHeader>
@@ -1480,16 +1765,23 @@ Jane Smith,jane@example.com,CS002,Computer Science"
             </div>
           </div>
         )}
-        {requestDetailDialog?.status === 'pending' && (
-          <DialogFooter className="gap-2">
-            <Button variant="outline" className="text-red-600" onClick={() => handleUpdateRequest(requestDetailDialog.id, 'rejected')}>
-              <XCircle className="w-4 h-4 mr-2" /> Reject
+        <DialogFooter className="gap-2">
+          {requestDetailDialog?.status === 'approved' && (
+            <Button variant="outline" onClick={() => handleDownloadPDF(requestDetailDialog)}>
+              <Download className="w-4 h-4 mr-2" /> Download PDF
             </Button>
-            <Button className="bg-green-600 hover:bg-green-700" onClick={() => handleUpdateRequest(requestDetailDialog.id, 'approved')}>
-              <CheckCircle2 className="w-4 h-4 mr-2" /> Approve
-            </Button>
-          </DialogFooter>
-        )}
+          )}
+          {requestDetailDialog?.status === 'pending' && (
+            <>
+              <Button variant="outline" className="text-red-600" onClick={() => handleUpdateRequest(requestDetailDialog.id, 'rejected')}>
+                <XCircle className="w-4 h-4 mr-2" /> Reject
+              </Button>
+              <Button className="bg-green-600 hover:bg-green-700" onClick={() => handleUpdateRequest(requestDetailDialog.id, 'approved')}>
+                <CheckCircle2 className="w-4 h-4 mr-2" /> Approve
+              </Button>
+            </>
+          )}
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
