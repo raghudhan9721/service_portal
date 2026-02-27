@@ -769,20 +769,20 @@ export default function App() {
 
   // ============ RENDER COMPONENTS ============
 
-  // Header Component
+  // Header Component - Original Design
   const Header = () => (
-    <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-100">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div 
-            className="flex items-center gap-3 cursor-pointer" 
+            className="flex items-center gap-2 cursor-pointer" 
             onClick={() => setCurrentPage(user ? (user.role === 'student' ? 'student-home' : 'dashboard') : 'home')}
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-200">
-              <GraduationCap className="w-6 h-6 text-white" />
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+              <GraduationCap className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent hidden sm:block">
+            <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               EduPortal
             </span>
           </div>
@@ -791,38 +791,38 @@ export default function App() {
           <nav className="hidden md:flex items-center gap-1">
             {!user ? (
               <>
-                <Button variant="ghost" onClick={() => setCurrentPage('home')} className={`${currentPage === 'home' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:text-gray-900'}`}>
-                  <Home className="w-4 h-4 mr-2" /> Home
+                <Button variant="ghost" onClick={() => setCurrentPage('home')} className={`gap-2 ${currentPage === 'home' ? 'bg-blue-50 text-blue-600' : 'text-gray-600'}`}>
+                  <Home className="w-4 h-4" /> Home
                 </Button>
-                <Button variant="ghost" onClick={() => setCurrentPage('about')} className={`${currentPage === 'about' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:text-gray-900'}`}>
-                  <Info className="w-4 h-4 mr-2" /> About
+                <Button variant="ghost" onClick={() => setCurrentPage('about')} className={`gap-2 ${currentPage === 'about' ? 'bg-blue-50 text-blue-600' : 'text-gray-600'}`}>
+                  <Info className="w-4 h-4" /> About
                 </Button>
-                <Button variant="ghost" onClick={() => setCurrentPage('courses')} className={`${currentPage === 'courses' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:text-gray-900'}`}>
-                  <BookOpen className="w-4 h-4 mr-2" /> Courses
+                <Button variant="ghost" onClick={() => setCurrentPage('courses')} className={`gap-2 ${currentPage === 'courses' ? 'bg-blue-50 text-blue-600' : 'text-gray-600'}`}>
+                  <BookOpen className="w-4 h-4" /> Courses
                 </Button>
               </>
             ) : user.role === 'student' ? (
               <>
-                <Button variant="ghost" onClick={() => setCurrentPage('student-home')} className={`${currentPage === 'student-home' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:text-gray-900'}`}>
-                  <Home className="w-4 h-4 mr-2" /> Home
+                <Button variant="ghost" onClick={() => setCurrentPage('student-home')} className={`gap-2 ${currentPage === 'student-home' ? 'bg-blue-50 text-blue-600' : 'text-gray-600'}`}>
+                  <Home className="w-4 h-4" /> Home
                 </Button>
-                <Button variant="ghost" onClick={() => setCurrentPage('student-profile')} className={`${currentPage === 'student-profile' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:text-gray-900'}`}>
-                  <UserCircle className="w-4 h-4 mr-2" /> Profile
+                <Button variant="ghost" onClick={() => setCurrentPage('student-profile')} className={`gap-2 ${currentPage === 'student-profile' ? 'bg-blue-50 text-blue-600' : 'text-gray-600'}`}>
+                  <UserCircle className="w-4 h-4" /> Profile
                 </Button>
-                <Button variant="ghost" onClick={() => setCurrentPage('student-services')} className={`${currentPage === 'student-services' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:text-gray-900'}`}>
-                  <FileText className="w-4 h-4 mr-2" /> Services
+                <Button variant="ghost" onClick={() => setCurrentPage('student-services')} className={`gap-2 ${currentPage === 'student-services' ? 'bg-blue-50 text-blue-600' : 'text-gray-600'}`}>
+                  <FileText className="w-4 h-4" /> Services
                 </Button>
               </>
             ) : (
               <>
-                <Button variant="ghost" onClick={() => setCurrentPage('dashboard')} className={`${currentPage === 'dashboard' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:text-gray-900'}`}>
-                  <BarChart3 className="w-4 h-4 mr-2" /> Dashboard
+                <Button variant="ghost" onClick={() => setCurrentPage('dashboard')} className={`gap-2 ${currentPage === 'dashboard' ? 'bg-blue-50 text-blue-600' : 'text-gray-600'}`}>
+                  <BarChart3 className="w-4 h-4" /> Dashboard
                 </Button>
-                <Button variant="ghost" onClick={() => setCurrentPage('students')} className={`${currentPage === 'students' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:text-gray-900'}`}>
-                  <Users className="w-4 h-4 mr-2" /> Students
+                <Button variant="ghost" onClick={() => setCurrentPage('students')} className={`gap-2 ${currentPage === 'students' ? 'bg-blue-50 text-blue-600' : 'text-gray-600'}`}>
+                  <Users className="w-4 h-4" /> Students
                 </Button>
-                <Button variant="ghost" onClick={() => setCurrentPage('requests')} className={`${currentPage === 'requests' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:text-gray-900'}`}>
-                  <FileCheck className="w-4 h-4 mr-2" /> Requests
+                <Button variant="ghost" onClick={() => setCurrentPage('requests')} className={`gap-2 ${currentPage === 'requests' ? 'bg-blue-50 text-blue-600' : 'text-gray-600'}`}>
+                  <FileCheck className="w-4 h-4" /> Requests
                 </Button>
               </>
             )}
@@ -835,11 +835,11 @@ export default function App() {
               <div className="relative">
                 <button 
                   onClick={() => setShowNotifications(!showNotifications)}
-                  className="relative w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
+                  className="relative w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
                 >
                   <Bell className="w-5 h-5 text-gray-600" />
                   {unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
+                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
                       {unreadCount}
                     </span>
                   )}
@@ -847,34 +847,34 @@ export default function App() {
                 
                 {/* Notifications Dropdown */}
                 {showNotifications && (
-                  <div className="absolute right-0 top-12 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50">
-                    <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-blue-50 to-purple-50">
+                  <div className="absolute right-0 top-11 w-80 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50">
+                    <div className="flex items-center justify-between p-4 border-b bg-gray-50">
                       <h3 className="font-semibold text-gray-800">Notifications</h3>
                       {unreadCount > 0 && (
-                        <Button variant="ghost" size="sm" onClick={handleMarkAllRead} className="text-xs text-blue-600 hover:text-blue-700">
+                        <button onClick={handleMarkAllRead} className="text-xs text-blue-600 hover:text-blue-700">
                           Mark all read
-                        </Button>
+                        </button>
                       )}
                     </div>
-                    <ScrollArea className="max-h-80">
+                    <ScrollArea className="max-h-72">
                       {notifications.length === 0 ? (
-                        <div className="p-8 text-center text-gray-500">
-                          <Bell className="w-10 h-10 mx-auto mb-2 opacity-30" />
-                          <p>No notifications yet</p>
+                        <div className="p-6 text-center text-gray-400">
+                          <Bell className="w-8 h-8 mx-auto mb-2 opacity-30" />
+                          <p className="text-sm">No notifications yet</p>
                         </div>
                       ) : (
                         notifications.slice(0, 10).map(notif => (
                           <div 
                             key={notif.id} 
                             onClick={() => handleMarkNotificationRead(notif.id)}
-                            className={`p-4 border-b cursor-pointer hover:bg-gray-50 transition-colors ${!notif.read ? 'bg-blue-50/50' : ''}`}
+                            className={`p-4 border-b cursor-pointer hover:bg-gray-50 transition-colors ${!notif.read ? 'bg-blue-50' : ''}`}
                           >
                             <div className="flex gap-3">
-                              <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                              <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                                 notif.type === 'success' ? 'bg-green-100 text-green-600' : 
                                 notif.type === 'error' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'
                               }`}>
-                                {notif.type === 'success' ? <CheckCircle2 className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
+                                {notif.type === 'success' ? <CheckCircle2 className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
                               </div>
                               <div className="flex-1 min-w-0">
                                 <p className="font-medium text-sm text-gray-800">{notif.title}</p>
@@ -894,25 +894,25 @@ export default function App() {
             {/* User Info / Login Button */}
             {user ? (
               <div className="flex items-center gap-3">
-                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-blue-50 to-purple-50 rounded-full border border-blue-100">
-                  <UserCircle className="w-5 h-5 text-blue-600" />
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-full border border-gray-200">
+                  <UserCircle className="w-4 h-4 text-gray-500" />
                   <span className="text-sm font-medium text-gray-700">{user.name}</span>
-                  <Badge variant="outline" className="text-xs capitalize border-blue-200 text-blue-600">{user.role}</Badge>
+                  <Badge variant="outline" className="text-xs">{user.role}</Badge>
                 </div>
-                <Button variant="outline" size="sm" onClick={handleLogout} className="border-gray-200 hover:bg-red-50 hover:text-red-600 hover:border-red-200">
-                  <LogOut className="w-4 h-4 mr-2" /> Logout
+                <Button variant="outline" size="sm" onClick={handleLogout} className="gap-2">
+                  <LogOut className="w-4 h-4" /> Logout
                 </Button>
               </div>
             ) : (
-              <Button onClick={() => setShowLoginModal(true)} className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg shadow-blue-200">
-                <LogIn className="w-4 h-4 mr-2" /> Login
+              <Button onClick={() => setShowLoginModal(true)} className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white gap-2">
+                <LogIn className="w-4 h-4" /> Login
               </Button>
             )}
 
             {/* Mobile Menu Toggle */}
             <button 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
-              className="md:hidden w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center"
+              className="md:hidden w-9 h-9 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -925,21 +925,21 @@ export default function App() {
             <nav className="flex flex-col gap-1">
               {!user ? (
                 <>
-                  <Button variant="ghost" onClick={() => { setCurrentPage('home'); setMobileMenuOpen(false); }} className="justify-start"><Home className="w-4 h-4 mr-2" /> Home</Button>
-                  <Button variant="ghost" onClick={() => { setCurrentPage('about'); setMobileMenuOpen(false); }} className="justify-start"><Info className="w-4 h-4 mr-2" /> About</Button>
-                  <Button variant="ghost" onClick={() => { setCurrentPage('courses'); setMobileMenuOpen(false); }} className="justify-start"><BookOpen className="w-4 h-4 mr-2" /> Courses</Button>
+                  <Button variant="ghost" onClick={() => { setCurrentPage('home'); setMobileMenuOpen(false); }} className="justify-start gap-2"><Home className="w-4 h-4" /> Home</Button>
+                  <Button variant="ghost" onClick={() => { setCurrentPage('about'); setMobileMenuOpen(false); }} className="justify-start gap-2"><Info className="w-4 h-4" /> About</Button>
+                  <Button variant="ghost" onClick={() => { setCurrentPage('courses'); setMobileMenuOpen(false); }} className="justify-start gap-2"><BookOpen className="w-4 h-4" /> Courses</Button>
                 </>
               ) : user.role === 'student' ? (
                 <>
-                  <Button variant="ghost" onClick={() => { setCurrentPage('student-home'); setMobileMenuOpen(false); }} className="justify-start"><Home className="w-4 h-4 mr-2" /> Home</Button>
-                  <Button variant="ghost" onClick={() => { setCurrentPage('student-profile'); setMobileMenuOpen(false); }} className="justify-start"><UserCircle className="w-4 h-4 mr-2" /> Profile</Button>
-                  <Button variant="ghost" onClick={() => { setCurrentPage('student-services'); setMobileMenuOpen(false); }} className="justify-start"><FileText className="w-4 h-4 mr-2" /> Services</Button>
+                  <Button variant="ghost" onClick={() => { setCurrentPage('student-home'); setMobileMenuOpen(false); }} className="justify-start gap-2"><Home className="w-4 h-4" /> Home</Button>
+                  <Button variant="ghost" onClick={() => { setCurrentPage('student-profile'); setMobileMenuOpen(false); }} className="justify-start gap-2"><UserCircle className="w-4 h-4" /> Profile</Button>
+                  <Button variant="ghost" onClick={() => { setCurrentPage('student-services'); setMobileMenuOpen(false); }} className="justify-start gap-2"><FileText className="w-4 h-4" /> Services</Button>
                 </>
               ) : (
                 <>
-                  <Button variant="ghost" onClick={() => { setCurrentPage('dashboard'); setMobileMenuOpen(false); }} className="justify-start"><BarChart3 className="w-4 h-4 mr-2" /> Dashboard</Button>
-                  <Button variant="ghost" onClick={() => { setCurrentPage('students'); setMobileMenuOpen(false); }} className="justify-start"><Users className="w-4 h-4 mr-2" /> Students</Button>
-                  <Button variant="ghost" onClick={() => { setCurrentPage('requests'); setMobileMenuOpen(false); }} className="justify-start"><FileCheck className="w-4 h-4 mr-2" /> Requests</Button>
+                  <Button variant="ghost" onClick={() => { setCurrentPage('dashboard'); setMobileMenuOpen(false); }} className="justify-start gap-2"><BarChart3 className="w-4 h-4" /> Dashboard</Button>
+                  <Button variant="ghost" onClick={() => { setCurrentPage('students'); setMobileMenuOpen(false); }} className="justify-start gap-2"><Users className="w-4 h-4" /> Students</Button>
+                  <Button variant="ghost" onClick={() => { setCurrentPage('requests'); setMobileMenuOpen(false); }} className="justify-start gap-2"><FileCheck className="w-4 h-4" /> Requests</Button>
                 </>
               )}
             </nav>
