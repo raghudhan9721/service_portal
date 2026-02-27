@@ -578,6 +578,36 @@ export default function App() {
     }
   }
 
+  // Update student profile
+  const handleUpdateProfile = async () => {
+    if (!user?.id) return
+    
+    setIsLoading(true)
+    try {
+      const res = await fetch(`/api/students/${user.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profileForm)
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        toast.error(data.error || 'Update failed')
+        return
+      }
+
+      // Update user state with new data
+      setUser({ ...user, ...data, role: 'student' })
+      setIsEditingProfile(false)
+      toast.success('Profile updated successfully!')
+    } catch (error) {
+      toast.error('Update failed. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   // Get status badge
   const getStatusBadge = (status) => {
     switch (status) {
