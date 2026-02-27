@@ -502,7 +502,13 @@ class APITester:
             ("Update Request Status", self.test_update_request_status),
             ("Dashboard Stats", self.test_dashboard_stats),
             ("Fee Structures", self.test_fee_structures),
-            ("Services", self.test_services)
+            ("Services", self.test_services),
+            # New Student Profile Tests
+            ("Get Single Student", self.test_get_single_student),
+            ("Update Student Profile", self.test_update_student_profile),
+            ("Verify Student Update", self.test_verify_student_update),
+            ("Get Student Invalid UUID", self.test_get_student_invalid_uuid),
+            ("Update Student Invalid UUID", self.test_update_student_invalid_uuid)
         ]
         
         passed = 0
