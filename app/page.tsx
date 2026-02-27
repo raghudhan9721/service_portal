@@ -1998,144 +1998,142 @@ export default function App() {
   const LoginModal = () => (
     <Dialog open={showLoginModal} onOpenChange={(open) => !open && handleCloseLoginModal()}>
       <DialogContent 
-        className="sm:max-w-xl p-0 overflow-hidden border-0 shadow-2xl" 
+        className="sm:max-w-md p-0 overflow-hidden" 
         onPointerDownOutside={(e) => e.preventDefault()}
         onInteractOutside={(e) => e.preventDefault()}
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
         {/* Header */}
-        <div className="bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 px-8 py-10 text-white relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
-          <div className="absolute bottom-0 left-0 w-60 h-60 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
-          <div className="relative z-10 flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
-              <GraduationCap className="w-8 h-8" />
+        <div className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 px-6 py-8 text-white">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
+              <GraduationCap className="w-7 h-7" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold">Welcome to EduPortal</h2>
-              <p className="text-blue-100 text-sm">Your gateway to academic excellence</p>
+              <h2 className="text-xl font-bold">Welcome to EduPortal</h2>
+              <p className="text-sm text-blue-100">Your gateway to academic excellence</p>
             </div>
           </div>
           {selectedRole && (
-            <Badge className="mt-4 bg-white/20 text-white border-white/30">
-              {selectedRole === 'student' && <GraduationCap className="w-3 h-3 mr-1" />}
-              {selectedRole === 'faculty' && <Briefcase className="w-3 h-3 mr-1" />}
-              {selectedRole === 'academic' && <Shield className="w-3 h-3 mr-1" />}
+            <Badge className="mt-3 bg-white/20 text-white border-0">
               Logging in as {selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)}
             </Badge>
           )}
         </div>
 
-        <div className="p-8">
+        <div className="p-6">
           {!selectedRole ? (
-            <div className="space-y-4">
-              <p className="text-center text-gray-500 mb-6">Select your role to continue</p>
+            <div className="space-y-3">
+              <p className="text-center text-gray-500 text-sm mb-4">Select your role to continue</p>
               {[
-                { role: 'student', icon: GraduationCap, title: 'Student', desc: 'Access your academic services & certificates', bgColor: 'from-blue-50 to-blue-100', hoverColor: 'hover:from-blue-100 hover:to-blue-200', iconBg: 'from-blue-500 to-blue-600' },
-                { role: 'faculty', icon: Briefcase, title: 'Faculty', desc: 'Manage your courses and students', bgColor: 'from-purple-50 to-purple-100', hoverColor: 'hover:from-purple-100 hover:to-purple-200', iconBg: 'from-purple-500 to-purple-600' },
-                { role: 'academic', icon: Shield, title: 'Academic (Admin)', desc: 'Manage institute services & requests', bgColor: 'from-green-50 to-green-100', hoverColor: 'hover:from-green-100 hover:to-green-200', iconBg: 'from-green-500 to-green-600' }
+                { role: 'student', icon: GraduationCap, title: 'Student', desc: 'Access services & certificates', color: 'blue' },
+                { role: 'faculty', icon: Briefcase, title: 'Faculty', desc: 'Manage courses and students', color: 'purple' },
+                { role: 'academic', icon: Shield, title: 'Academic (Admin)', desc: 'Manage institute services', color: 'green' }
               ].map((item) => (
                 <div 
                   key={item.role}
-                  className={`group flex items-center gap-4 p-5 rounded-2xl bg-gradient-to-r ${item.bgColor} ${item.hoverColor} cursor-pointer transition-all hover:scale-[1.02] hover:shadow-lg`}
+                  className={`flex items-center gap-4 p-4 rounded-xl cursor-pointer transition-all border-2 hover:border-${item.color}-300 hover:bg-${item.color}-50 ${
+                    item.color === 'blue' ? 'border-gray-100 hover:border-blue-300 hover:bg-blue-50' :
+                    item.color === 'purple' ? 'border-gray-100 hover:border-purple-300 hover:bg-purple-50' :
+                    'border-gray-100 hover:border-green-300 hover:bg-green-50'
+                  }`}
                   onClick={() => setSelectedRole(item.role)}
                 >
-                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${item.iconBg} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform`}>
-                    <item.icon className="w-7 h-7 text-white" />
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                    item.color === 'blue' ? 'bg-blue-100 text-blue-600' :
+                    item.color === 'purple' ? 'bg-purple-100 text-purple-600' :
+                    'bg-green-100 text-green-600'
+                  }`}>
+                    <item.icon className="w-6 h-6" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-semibold text-lg">{item.title}</h3>
-                    <p className="text-sm text-gray-600">{item.desc}</p>
+                    <h3 className="font-semibold text-gray-800">{item.title}</h3>
+                    <p className="text-sm text-gray-500">{item.desc}</p>
                   </div>
-                  <ChevronRight className="w-6 h-6 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all" />
+                  <ChevronRight className="w-5 h-5 text-gray-400" />
                 </div>
               ))}
-              <div className="text-center pt-4">
+              <div className="text-center pt-2">
                 <Button variant="ghost" onClick={handleCloseLoginModal} className="text-gray-500">
-                  <X className="w-4 h-4 mr-2" /> Close
+                  Cancel
                 </Button>
               </div>
             </div>
           ) : (
-            <form onSubmit={handleLogin} className="space-y-6">
-              <div className={`w-20 h-20 mx-auto rounded-2xl shadow-xl flex items-center justify-center bg-gradient-to-br ${
-                selectedRole === 'student' ? 'from-blue-500 to-blue-600' :
-                selectedRole === 'faculty' ? 'from-purple-500 to-purple-600' : 'from-green-500 to-green-600'
-              }`}>
-                {selectedRole === 'student' && <GraduationCap className="w-10 h-10 text-white" />}
-                {selectedRole === 'faculty' && <Briefcase className="w-10 h-10 text-white" />}
-                {selectedRole === 'academic' && <Shield className="w-10 h-10 text-white" />}
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div className="text-center mb-4">
+                <div className={`w-16 h-16 mx-auto rounded-xl flex items-center justify-center ${
+                  selectedRole === 'student' ? 'bg-blue-100 text-blue-600' :
+                  selectedRole === 'faculty' ? 'bg-purple-100 text-purple-600' :
+                  'bg-green-100 text-green-600'
+                }`}>
+                  {selectedRole === 'student' && <GraduationCap className="w-8 h-8" />}
+                  {selectedRole === 'faculty' && <Briefcase className="w-8 h-8" />}
+                  {selectedRole === 'academic' && <Shield className="w-8 h-8" />}
+                </div>
               </div>
 
               <div>
-                <Label className="flex items-center gap-2 text-gray-600 mb-2">
-                  <Mail className="w-4 h-4" /> {selectedRole === 'student' ? 'Email ID' : 'User ID'}
+                <Label className="text-gray-600 text-sm">
+                  {selectedRole === 'student' ? 'Email ID' : 'User ID'}
                 </Label>
                 <Input
                   type={selectedRole === 'student' ? 'email' : 'text'}
                   placeholder={selectedRole === 'student' ? 'your.email@example.com' : 'Enter your user ID'}
                   value={loginForm.userId}
                   onChange={(e) => setLoginForm({ ...loginForm, userId: e.target.value })}
-                  className="h-12 rounded-xl border-2 focus:border-blue-400"
+                  className="mt-1"
                   autoComplete="username"
+                  autoFocus={false}
                 />
               </div>
 
               <div>
-                <Label className="flex items-center gap-2 text-gray-600 mb-2">
-                  <Lock className="w-4 h-4" /> Password
-                </Label>
+                <Label className="text-gray-600 text-sm">Password</Label>
                 <Input
                   type="password"
                   placeholder="Enter your password"
                   value={loginForm.password}
                   onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
-                  className="h-12 rounded-xl border-2 focus:border-blue-400"
+                  className="mt-1"
                   autoComplete="current-password"
+                  autoFocus={false}
                 />
                 {selectedRole === 'student' && (
-                  <div className="mt-2 p-3 bg-blue-50 rounded-lg flex items-center gap-2 text-sm text-blue-700">
-                    <Info className="w-4 h-4 flex-shrink-0" />
-                    <span>Default password: <code className="font-mono font-bold">student@123</code></span>
-                  </div>
+                  <p className="text-xs text-blue-600 mt-1 bg-blue-50 p-2 rounded">
+                    Default password: <code className="font-mono font-bold">student@123</code>
+                  </p>
                 )}
               </div>
 
               {selectedRole !== 'student' && (
                 <div>
-                  <Label className="flex items-center gap-2 text-gray-600 mb-2">
-                    <User className="w-4 h-4" /> Your Name
-                  </Label>
+                  <Label className="text-gray-600 text-sm">Your Name</Label>
                   <Input
                     placeholder="Enter your full name"
                     value={loginForm.name}
                     onChange={(e) => setLoginForm({ ...loginForm, name: e.target.value })}
-                    className="h-12 rounded-xl border-2 focus:border-blue-400"
+                    className="mt-1"
                     autoComplete="name"
+                    autoFocus={false}
                   />
                 </div>
               )}
 
-              <div className="flex gap-3 pt-4">
-                <Button type="button" variant="outline" onClick={() => setSelectedRole(null)} className="flex-1 h-12 rounded-xl">
-                  <ChevronRight className="w-4 h-4 mr-2 rotate-180" /> Back
+              <div className="flex gap-3 pt-2">
+                <Button type="button" variant="outline" onClick={() => setSelectedRole(null)} className="flex-1">
+                  Back
                 </Button>
                 <Button 
                   type="submit" 
                   disabled={isLoading}
-                  className={`flex-1 h-12 rounded-xl shadow-lg bg-gradient-to-r ${
-                    selectedRole === 'student' ? 'from-blue-500 to-blue-600' :
-                    selectedRole === 'faculty' ? 'from-purple-500 to-purple-600' : 'from-green-500 to-green-600'
+                  className={`flex-1 ${
+                    selectedRole === 'student' ? 'bg-blue-500 hover:bg-blue-600' :
+                    selectedRole === 'faculty' ? 'bg-purple-500 hover:bg-purple-600' :
+                    'bg-green-500 hover:bg-green-600'
                   }`}
                 >
-                  {isLoading ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
-                      Logging in...
-                    </>
-                  ) : (
-                    <><LogIn className="w-4 h-4 mr-2" /> Login</>
-                  )}
+                  {isLoading ? 'Logging in...' : 'Login'}
                 </Button>
               </div>
             </form>
