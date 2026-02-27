@@ -299,6 +299,18 @@ export default function App() {
   const [showServiceDialog, setShowServiceDialog] = useState(false)
   const [activeService, setActiveService] = useState(null)
   const [requestDetailDialog, setRequestDetailDialog] = useState(null)
+  
+  // Profile edit state
+  const [profileForm, setProfileForm] = useState({
+    name: '',
+    phone: '',
+    address: '',
+    dateOfBirth: '',
+    guardianName: '',
+    guardianPhone: '',
+    bloodGroup: ''
+  })
+  const [isEditingProfile, setIsEditingProfile] = useState(false)
 
   // Load data based on user role
   useEffect(() => {
