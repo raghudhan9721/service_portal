@@ -2000,10 +2000,15 @@ export default function App() {
     </div>
   );
 
-  // Login Modal
+  // Login Modal - Fixed cursor issue
   const LoginModal = () => (
     <Dialog open={showLoginModal} onOpenChange={(open) => !open && handleCloseLoginModal()}>
-      <DialogContent className="sm:max-w-xl p-0 overflow-hidden border-0 shadow-2xl" onPointerDownOutside={(e) => e.preventDefault()}>
+      <DialogContent 
+        className="sm:max-w-xl p-0 overflow-hidden border-0 shadow-2xl" 
+        onPointerDownOutside={(e) => e.preventDefault()}
+        onInteractOutside={(e) => e.preventDefault()}
+        onOpenAutoFocus={(e) => e.preventDefault()}
+      >
         {/* Header */}
         <div className="bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 px-8 py-10 text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
