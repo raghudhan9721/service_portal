@@ -1537,52 +1537,48 @@ export default function App() {
     </div>
   );
 
-  // Student Home Page
+  // Student Home Page - Original Design
   const StudentHome = () => (
-    <div className="min-h-screen py-8 bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50">
+      {/* Gradient line under header */}
+      <div className="h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500" />
+      
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Welcome Section */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Welcome, {user?.name}!</h1>
-          <p className="text-gray-600">Access your academic services and track your requests</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome, {user?.name}!</h1>
+          <p className="text-gray-500">Access your academic services and track your requests</p>
         </div>
 
-        {/* Student Info Card */}
-        <Card className="mb-8 border-0 shadow-xl overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-6 text-white">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Student Info Card - Gradient */}
+        <Card className="mb-8 border-0 shadow-lg overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 p-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-white">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
-                  <UserCircle className="w-6 h-6" />
-                </div>
+                <UserCircle className="w-8 h-8 opacity-80" />
                 <div>
-                  <p className="text-white/70 text-sm">Name</p>
+                  <p className="text-xs text-blue-100 opacity-80">Name</p>
                   <p className="font-semibold">{user?.name}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
-                  <Mail className="w-6 h-6" />
-                </div>
+                <Mail className="w-8 h-8 opacity-80" />
                 <div>
-                  <p className="text-white/70 text-sm">Email</p>
-                  <p className="font-semibold truncate">{user?.email}</p>
+                  <p className="text-xs text-blue-100 opacity-80">Email</p>
+                  <p className="font-semibold text-sm truncate">{user?.email}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
-                  <Hash className="w-6 h-6" />
-                </div>
+                <Hash className="w-8 h-8 opacity-80" />
                 <div>
-                  <p className="text-white/70 text-sm">Roll No</p>
+                  <p className="text-xs text-blue-100 opacity-80">Roll No</p>
                   <p className="font-semibold">{user?.rollNo || 'N/A'}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
-                  <Building2 className="w-6 h-6" />
-                </div>
+                <Building2 className="w-8 h-8 opacity-80" />
                 <div>
-                  <p className="text-white/70 text-sm">Department</p>
+                  <p className="text-xs text-blue-100 opacity-80">Department</p>
                   <p className="font-semibold">{user?.department || 'N/A'}</p>
                 </div>
               </div>
@@ -1590,49 +1586,47 @@ export default function App() {
           </div>
         </Card>
 
-        {/* Quick Actions */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        {/* Service Cards - Original Design */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {[
-            { icon: FileCheck, title: 'Bonafide Certificate', service: 'bonafide' as ServiceType, gradient: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-200' },
-            { icon: CreditCard, title: 'Fee Structure', service: 'fee' as ServiceType, gradient: 'from-purple-500 to-purple-600', shadow: 'shadow-purple-200' },
-            { icon: FileText, title: 'Transfer Certificate', service: 'tc' as ServiceType, gradient: 'from-pink-500 to-pink-600', shadow: 'shadow-pink-200' },
-            { icon: Shield, title: 'NOC', service: 'noc' as ServiceType, gradient: 'from-green-500 to-green-600', shadow: 'shadow-green-200' }
+            { icon: FileCheck, title: 'Bonafide Certificate', service: 'bonafide' as ServiceType, color: 'bg-blue-100', iconColor: 'text-blue-500' },
+            { icon: CreditCard, title: 'Fee Structure', service: 'fee' as ServiceType, color: 'bg-purple-100', iconColor: 'text-purple-500' },
+            { icon: FileText, title: 'Transfer Certificate', service: 'tc' as ServiceType, color: 'bg-pink-100', iconColor: 'text-pink-500' },
+            { icon: Shield, title: 'NOC', service: 'noc' as ServiceType, color: 'bg-green-100', iconColor: 'text-green-500' }
           ].map((item, idx) => (
-            <Card 
-              key={idx} 
-              className="border-0 shadow-lg hover:shadow-xl transition-all cursor-pointer hover:-translate-y-1"
-              onClick={() => { setActiveService(item.service); setShowServiceDialog(true); }}
-            >
+            <Card key={idx} className="border shadow-sm hover:shadow-md transition-shadow cursor-pointer" onClick={() => { setActiveService(item.service); setShowServiceDialog(true); }}>
               <CardContent className="p-6 text-center">
-                <div className={`w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center mb-4 shadow-lg ${item.shadow}`}>
-                  <item.icon className="w-8 h-8 text-white" />
+                <div className={`w-16 h-16 mx-auto rounded-2xl ${item.color} flex items-center justify-center mb-4`}>
+                  <item.icon className={`w-8 h-8 ${item.iconColor}`} />
                 </div>
-                <h3 className="font-semibold mb-2">{item.title}</h3>
-                <Button size="sm" variant="outline" className="w-full">Request</Button>
+                <h3 className="font-medium text-gray-900 mb-4">{item.title}</h3>
+                <Button variant="outline" size="sm" className="w-auto">
+                  Request
+                </Button>
               </CardContent>
             </Card>
           ))}
         </div>
 
-        {/* My Requests */}
-        <Card className="border-0 shadow-xl">
-          <CardHeader>
-            <CardTitle>My Requests</CardTitle>
+        {/* My Requests Section */}
+        <Card className="border shadow-sm">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-xl font-semibold">My Requests</CardTitle>
             <CardDescription>Track the status of your service requests</CardDescription>
           </CardHeader>
           <CardContent>
             {requests.length === 0 ? (
-              <div className="text-center py-12 text-gray-500">
-                <FileText className="w-16 h-16 mx-auto mb-4 opacity-20" />
-                <p className="font-medium">No requests yet</p>
+              <div className="text-center py-12 text-gray-400">
+                <FileText className="w-12 h-12 mx-auto mb-3 opacity-30" />
+                <p>No requests yet</p>
                 <p className="text-sm">Click on a service above to make a request</p>
               </div>
             ) : (
               <div className="space-y-3">
                 {requests.map((req) => (
-                  <div key={req.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                  <div key={req.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                     <div>
-                      <p className="font-medium">{getServiceName(req.serviceType)}</p>
+                      <p className="font-medium text-gray-900">{getServiceName(req.serviceType)}</p>
                       <p className="text-sm text-gray-500">
                         {new Date(req.createdAt).toLocaleDateString()} • {new Date(req.createdAt).toLocaleTimeString()}
                       </p>
@@ -1640,7 +1634,7 @@ export default function App() {
                     <div className="flex items-center gap-3">
                       <StatusBadge status={req.status} />
                       {req.status === 'approved' && (
-                        <Button size="sm" variant="outline" onClick={() => handleDownloadPDF(req)} className="text-green-600 border-green-200 hover:bg-green-50">
+                        <Button size="sm" variant="outline" onClick={() => handleDownloadPDF(req)}>
                           <Download className="w-4 h-4 mr-1" /> PDF
                         </Button>
                       )}
