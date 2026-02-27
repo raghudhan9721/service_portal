@@ -219,6 +219,56 @@ async function handleRoute(request, { params }) {
       return handleCORS(NextResponse.json(cleanedStudents))
     }
 
+    // Get single student by ID - GET /api/students/:id
+    if (route.startsWith('/students/') && method === 'GET' && path.length === 2) {
+      const studentId = path[1]
+      const student = await db.collection('students').findOne({ id: studentId })
+      
+      if (!student) {
+        return handleCORS(NextResponse.json(
+          { error: 'Student not found' },
+          { status: 404 }
+        ))
+      }
+      
+      const { _id, password, ...cleanedStudent } = student
+      return handleCORS(NextResponse.json(cleanedStudent))
+    }
+
+    // Update student profile - PUT /api/students/:id
+    if (route.startsWith('/students/') && method === 'PUT' && path.length === 2) {
+      const studentId = path[1]
+      const body = await request.json()
+      const { name, phone, address, dateOfBirth, guardianName, guardianPhone, bloodGroup } = body
+      
+      const updateData = {
+        ...(name && { name }),
+        ...(phone && { phone }),
+        ...(address && { address }),
+        ...(dateOfBirth && { dateOfBirth }),
+        ...(guardianName && { guardianName }),
+        ...(guardianPhone && { guardianPhone }),
+        ...(bloodGroup && { bloodGroup }),
+        updatedAt: new Date()
+      }
+
+      const result = await db.collection('students').findOneAndUpdate(
+        { id: studentId },
+        { $set: updateData },
+        { returnDocument: 'after' }
+      )
+
+      if (!result) {
+        return handleCORS(NextResponse.json(
+          { error: 'Student not found' },
+          { status: 404 }
+        ))
+      }
+
+      const { _id, password: _, ...cleanedResult } = result
+      return handleCORS(NextResponse.json(cleanedResult))
+    }
+
     // ============ SERVICE REQUEST ROUTES ============
     
     // Create service request - POST /api/requests
