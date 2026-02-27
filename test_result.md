@@ -108,7 +108,7 @@ backend:
   - task: "Authentication API - Login for Academic/Faculty/Student"
     implemented: true
     working: true
-    file: "app/api/[[...path]]/route.js"
+    file: "app/api/[[...path]]/route.ts"
     stuck_count: 0
     priority: "high"
     needs_retesting: false
@@ -123,7 +123,7 @@ backend:
   - task: "CSV Upload for Students"
     implemented: true
     working: true
-    file: "app/api/[[...path]]/route.js"
+    file: "app/api/[[...path]]/route.ts"
     stuck_count: 0
     priority: "high"
     needs_retesting: false
@@ -138,7 +138,7 @@ backend:
   - task: "Get All Students"
     implemented: true
     working: true
-    file: "app/api/[[...path]]/route.js"
+    file: "app/api/[[...path]]/route.ts"
     stuck_count: 0
     priority: "medium"
     needs_retesting: false
@@ -153,7 +153,7 @@ backend:
   - task: "Service Requests CRUD"
     implemented: true
     working: true
-    file: "app/api/[[...path]]/route.js"
+    file: "app/api/[[...path]]/route.ts"
     stuck_count: 0
     priority: "high"
     needs_retesting: false
@@ -168,7 +168,7 @@ backend:
   - task: "Dashboard Stats"
     implemented: true
     working: true
-    file: "app/api/[[...path]]/route.js"
+    file: "app/api/[[...path]]/route.ts"
     stuck_count: 0
     priority: "medium"
     needs_retesting: false
@@ -183,7 +183,7 @@ backend:
   - task: "Fee Structures API"
     implemented: true
     working: true
-    file: "app/api/[[...path]]/route.js"
+    file: "app/api/[[...path]]/route.ts"
     stuck_count: 0
     priority: "medium"
     needs_retesting: false
@@ -198,7 +198,7 @@ backend:
   - task: "Services API"
     implemented: true
     working: true
-    file: "app/api/[[...path]]/route.js"
+    file: "app/api/[[...path]]/route.ts"
     stuck_count: 0
     priority: "medium"
     needs_retesting: false
