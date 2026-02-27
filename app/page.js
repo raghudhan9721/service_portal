@@ -2354,6 +2354,7 @@ Jane Smith,jane@example.com,CS002,Computer Science"
       {user?.role === 'faculty' && currentPage === 'dashboard' && <AcademicDashboard />}
       
       {user?.role === 'student' && currentPage === 'student-home' && <StudentHome />}
+      {user?.role === 'student' && currentPage === 'student-profile' && <StudentProfile />}
       {user?.role === 'student' && currentPage === 'student-department' && <StudentDepartment />}
       {user?.role === 'student' && currentPage === 'student-services' && <StudentServices />}
 
