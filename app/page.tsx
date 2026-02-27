@@ -36,9 +36,6 @@ import {
   Phone, User, Edit3, Save, Sparkles, Star, Lock, AlertCircle
 } from 'lucide-react';
 
-// Import SCSS
-import '@/styles/main.scss';
-
 // Lottie animation component
 const LottieAnimation = ({ url, className = '' }: { url: string; className?: string }) => {
   const [Lottie, setLottie] = useState<any>(null);
