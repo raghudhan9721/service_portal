@@ -1964,106 +1964,207 @@ Jane Smith,jane@example.com,CS002,Computer Science"
     </div>
   )
 
-  // Login Modal - Fixed version
+  // Login Modal - Beautiful New Design
   const LoginModal = () => (
     <Dialog open={showLoginModal} onOpenChange={(open) => {
       if (!open) {
         handleCloseLoginModal()
       }
     }}>
-      <DialogContent className="sm:max-w-lg" onPointerDownOutside={(e) => e.preventDefault()}>
-        <DialogHeader>
-          <DialogTitle className="text-2xl">Login to EduPortal</DialogTitle>
-          <DialogDescription>
-            {selectedRole ? `Login as ${selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)}` : 'Select your role to continue'}
-          </DialogDescription>
-        </DialogHeader>
-
-        {!selectedRole ? (
-          <div className="grid gap-4 py-4">
-            {[
-              { role: 'student', icon: GraduationCap, title: 'Student', desc: 'Access your academic services', color: 'blue' },
-              { role: 'faculty', icon: Briefcase, title: 'Faculty', desc: 'Manage your courses and students', color: 'purple' },
-              { role: 'academic', icon: Shield, title: 'Academic (Admin)', desc: 'Manage institute services', color: 'green' }
-            ].map((item) => (
-              <Card 
-                key={item.role} 
-                className="cursor-pointer hover:border-primary hover:shadow-md transition-all"
-                onClick={() => setSelectedRole(item.role)}
-              >
-                <CardHeader className="flex-row items-center gap-4 py-4">
-                  <div className={`w-12 h-12 rounded-xl bg-${item.color}-100 flex items-center justify-center`}>
-                    <item.icon className={`w-6 h-6 text-${item.color}-600`} />
-                  </div>
-                  <div className="flex-1">
-                    <CardTitle className="text-lg">{item.title}</CardTitle>
-                    <CardDescription>{item.desc}</CardDescription>
-                  </div>
-                  <ChevronRight className="w-5 h-5 text-muted-foreground" />
-                </CardHeader>
-              </Card>
-            ))}
-          </div>
-        ) : (
-          <form onSubmit={handleLogin} className="grid gap-4 py-4">
-            <div className="grid gap-2">
-              <Label htmlFor="userId">
-                {selectedRole === 'student' ? 'Email ID' : 'User ID'}
-              </Label>
-              <Input
-                id="userId"
-                type={selectedRole === 'student' ? 'email' : 'text'}
-                placeholder={selectedRole === 'student' ? 'your.email@example.com' : 'Enter your user ID'}
-                value={loginForm.userId}
-                onChange={(e) => setLoginForm({ ...loginForm, userId: e.target.value })}
-                autoComplete="username"
-              />
+      <DialogContent className="sm:max-w-xl p-0 overflow-hidden border-0 shadow-2xl" onPointerDownOutside={(e) => e.preventDefault()}>
+        {/* Gradient Header */}
+        <div className="bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 px-8 py-10 text-white relative overflow-hidden">
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjEiPjxwYXRoIGQ9Ik0zNiAzNGMwLTIgMi00IDItNHMtMi0yLTQtMmMtMiAwLTQgMi00IDJzLTIgMi0yIDQgMiA0IDIgNCAyIDIgNCAyYzIgMCA0LTIgNC0yczItMiAyLTR6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-30" />
+          <div className="relative z-10">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                <GraduationCap className="w-8 h-8 text-white" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold">Welcome to EduPortal</h2>
+                <p className="text-blue-100 text-sm">Your gateway to academic excellence</p>
+              </div>
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder={selectedRole === 'student' ? 'student@123' : 'Enter your password'}
-                value={loginForm.password}
-                onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
-                autoComplete="current-password"
-              />
-              {selectedRole === 'student' && (
-                <p className="text-xs text-muted-foreground">Default password: student@123</p>
-              )}
-            </div>
-            {selectedRole !== 'student' && (
-              <div className="grid gap-2">
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
-                  placeholder="Enter your name"
-                  value={loginForm.name}
-                  onChange={(e) => setLoginForm({ ...loginForm, name: e.target.value })}
-                  autoComplete="name"
-                />
+            {selectedRole && (
+              <div className="flex items-center gap-2 mt-4">
+                <Badge className="bg-white/20 text-white border-white/30 hover:bg-white/30">
+                  {selectedRole === 'student' && <GraduationCap className="w-3 h-3 mr-1" />}
+                  {selectedRole === 'faculty' && <Briefcase className="w-3 h-3 mr-1" />}
+                  {selectedRole === 'academic' && <Shield className="w-3 h-3 mr-1" />}
+                  Logging in as {selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)}
+                </Badge>
               </div>
             )}
-            
-            <DialogFooter className="gap-2 sm:gap-0 pt-4">
-              <Button type="button" variant="outline" onClick={() => setSelectedRole(null)}>
-                Back
-              </Button>
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? 'Logging in...' : 'Login'}
-              </Button>
-            </DialogFooter>
-          </form>
-        )}
+          </div>
+          {/* Decorative circles */}
+          <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/10" />
+          <div className="absolute -bottom-20 -left-10 w-60 h-60 rounded-full bg-white/5" />
+        </div>
 
-        {!selectedRole && (
-          <DialogFooter>
-            <Button variant="outline" onClick={handleCloseLoginModal}>
-              Cancel
-            </Button>
-          </DialogFooter>
-        )}
+        <div className="p-8">
+          {!selectedRole ? (
+            <div className="space-y-4">
+              <p className="text-center text-muted-foreground mb-6">
+                Select your role to continue
+              </p>
+              {[
+                { 
+                  role: 'student', 
+                  icon: GraduationCap, 
+                  title: 'Student', 
+                  desc: 'Access your academic services & certificates',
+                  gradient: 'from-blue-500 to-blue-600',
+                  bgGradient: 'from-blue-50 to-blue-100',
+                  hoverGradient: 'hover:from-blue-100 hover:to-blue-200'
+                },
+                { 
+                  role: 'faculty', 
+                  icon: Briefcase, 
+                  title: 'Faculty', 
+                  desc: 'Manage your courses and students',
+                  gradient: 'from-purple-500 to-purple-600',
+                  bgGradient: 'from-purple-50 to-purple-100',
+                  hoverGradient: 'hover:from-purple-100 hover:to-purple-200'
+                },
+                { 
+                  role: 'academic', 
+                  icon: Shield, 
+                  title: 'Academic (Admin)', 
+                  desc: 'Manage institute services & requests',
+                  gradient: 'from-green-500 to-green-600',
+                  bgGradient: 'from-green-50 to-green-100',
+                  hoverGradient: 'hover:from-green-100 hover:to-green-200'
+                }
+              ].map((item) => (
+                <div 
+                  key={item.role} 
+                  className={`group cursor-pointer rounded-2xl bg-gradient-to-r ${item.bgGradient} ${item.hoverGradient} p-5 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] border border-transparent hover:border-gray-200`}
+                  onClick={() => setSelectedRole(item.role)}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform`}>
+                      <item.icon className="w-7 h-7 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-lg text-gray-800">{item.title}</h3>
+                      <p className="text-sm text-gray-600">{item.desc}</p>
+                    </div>
+                    <ChevronRight className="w-6 h-6 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all" />
+                  </div>
+                </div>
+              ))}
+              
+              <div className="pt-4 flex justify-center">
+                <Button variant="ghost" onClick={handleCloseLoginModal} className="text-muted-foreground">
+                  <X className="w-4 h-4 mr-2" /> Close
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={handleLogin} className="space-y-6">
+              {/* Role indicator */}
+              <div className="flex justify-center mb-6">
+                <div className={`w-20 h-20 rounded-2xl shadow-xl flex items-center justify-center ${
+                  selectedRole === 'student' ? 'bg-gradient-to-br from-blue-500 to-blue-600' :
+                  selectedRole === 'faculty' ? 'bg-gradient-to-br from-purple-500 to-purple-600' :
+                  'bg-gradient-to-br from-green-500 to-green-600'
+                }`}>
+                  {selectedRole === 'student' && <GraduationCap className="w-10 h-10 text-white" />}
+                  {selectedRole === 'faculty' && <Briefcase className="w-10 h-10 text-white" />}
+                  {selectedRole === 'academic' && <Shield className="w-10 h-10 text-white" />}
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="userId" className="text-sm font-medium flex items-center gap-2">
+                    <Mail className="w-4 h-4 text-gray-400" />
+                    {selectedRole === 'student' ? 'Email ID' : 'User ID'}
+                  </Label>
+                  <Input
+                    id="userId"
+                    type={selectedRole === 'student' ? 'email' : 'text'}
+                    placeholder={selectedRole === 'student' ? 'your.email@example.com' : 'Enter your user ID'}
+                    value={loginForm.userId}
+                    onChange={(e) => setLoginForm({ ...loginForm, userId: e.target.value })}
+                    autoComplete="username"
+                    className="h-12 rounded-xl border-2 focus:border-blue-400 transition-colors"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="text-sm font-medium flex items-center gap-2">
+                    <Lock className="w-4 h-4 text-gray-400" />
+                    Password
+                  </Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    value={loginForm.password}
+                    onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+                    autoComplete="current-password"
+                    className="h-12 rounded-xl border-2 focus:border-blue-400 transition-colors"
+                  />
+                  {selectedRole === 'student' && (
+                    <p className="text-xs text-blue-600 bg-blue-50 px-3 py-2 rounded-lg flex items-center gap-2">
+                      <Info className="w-3 h-3" />
+                      Default password for students: <span className="font-mono font-semibold">student@123</span>
+                    </p>
+                  )}
+                </div>
+                
+                {selectedRole !== 'student' && (
+                  <div className="space-y-2">
+                    <Label htmlFor="name" className="text-sm font-medium flex items-center gap-2">
+                      <User className="w-4 h-4 text-gray-400" />
+                      Your Name
+                    </Label>
+                    <Input
+                      id="name"
+                      placeholder="Enter your full name"
+                      value={loginForm.name}
+                      onChange={(e) => setLoginForm({ ...loginForm, name: e.target.value })}
+                      autoComplete="name"
+                      className="h-12 rounded-xl border-2 focus:border-blue-400 transition-colors"
+                    />
+                  </div>
+                )}
+              </div>
+              
+              <div className="flex gap-3 pt-4">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => setSelectedRole(null)}
+                  className="flex-1 h-12 rounded-xl"
+                >
+                  <ChevronRight className="w-4 h-4 mr-2 rotate-180" /> Back
+                </Button>
+                <Button 
+                  type="submit" 
+                  disabled={isLoading}
+                  className={`flex-1 h-12 rounded-xl shadow-lg ${
+                    selectedRole === 'student' ? 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700' :
+                    selectedRole === 'faculty' ? 'bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700' :
+                    'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700'
+                  }`}
+                >
+                  {isLoading ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                      Logging in...
+                    </>
+                  ) : (
+                    <>
+                      <LogIn className="w-4 h-4 mr-2" /> Login
+                    </>
+                  )}
+                </Button>
+              </div>
+            </form>
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   )
