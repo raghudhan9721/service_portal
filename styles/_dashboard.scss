@@ -1,0 +1,225 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// Dashboard Styles
+.dashboard {
+  min-height: 100vh;
+  padding: 2rem 0;
+  
+  &__header {
+    margin-bottom: 2rem;
+    
+    h1 {
+      font-size: 1.875rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    
+    p {
+      color: #64748b;
+    }
+  }
+  
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+    
+    @include responsive(lg) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  &__stat-card {
+    padding: 1.5rem;
+    border-radius: $border-radius-xl;
+    color: white;
+    
+    &--blue {
+      background: $gradient-blue;
+    }
+    
+    &--purple {
+      background: $gradient-purple;
+    }
+    
+    &--yellow {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+    
+    &--green {
+      background: $gradient-green;
+    }
+    
+    &-label {
+      font-size: 0.875rem;
+      opacity: 0.9;
+      margin-bottom: 0.5rem;
+    }
+    
+    &-value {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+    
+    &-icon {
+      margin-top: 0.5rem;
+      opacity: 0.5;
+      
+      svg {
+        width: 2rem;
+        height: 2rem;
+      }
+    }
+  }
+}
+
+// Students Management
+.students {
+  &__grid {
+    display: grid;
+    gap: 2rem;
+    
+    @include responsive(lg) {
+      grid-template-columns: 1fr 2fr;
+    }
+  }
+  
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    
+    th {
+      text-align: left;
+      padding: 1rem;
+      background: #f8fafc;
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: #64748b;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.875rem;
+      
+      &:first-child {
+        font-weight: 500;
+      }
+    }
+    
+    tr:hover td {
+      background: #f8fafc;
+    }
+  }
+  
+  &__empty {
+    @include flex-center;
+    @include flex-column;
+    gap: 1rem;
+    padding: 3rem;
+    color: #94a3b8;
+    text-align: center;
+    
+    svg {
+      width: 4rem;
+      height: 4rem;
+      opacity: 0.5;
+    }
+    
+    h4 {
+      font-size: 1.125rem;
+      color: #64748b;
+    }
+    
+    p {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+// Requests Management
+.requests {
+  &__tabs {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 1.5rem;
+    padding: 0.25rem;
+    background: #f1f5f9;
+    border-radius: $border-radius-lg;
+    width: fit-content;
+  }
+  
+  &__tab {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background: transparent;
+    border: none;
+    border-radius: $border-radius-md;
+    cursor: pointer;
+    transition: all $transition-fast;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+    
+    &--active {
+      background: white;
+      box-shadow: $shadow-sm;
+    }
+  }
+  
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  &__item {
+    @include flex-between;
+    padding: 1rem;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: $border-radius-lg;
+    transition: all $transition-fast;
+    
+    &:hover {
+      box-shadow: $shadow-md;
+      border-color: #cbd5e1;
+    }
+    
+    &-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      
+      &-avatar {
+        width: 2.5rem;
+        height: 2.5rem;
+        @include flex-center;
+        background: #eff6ff;
+        border-radius: 50%;
+        color: $primary-blue;
+      }
+      
+      h4 {
+        font-weight: 500;
+        margin-bottom: 0.125rem;
+      }
+      
+      p {
+        font-size: 0.75rem;
+        color: #64748b;
+      }
+    }
+    
+    &-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+}

@@ -1,0 +1,334 @@
+// Main SCSS Entry Point
+@use 'variables' as *;
+@use 'mixins' as *;
+@use 'base';
+@use 'header';
+@use 'login';
+@use 'upload';
+@use 'profile';
+@use 'dashboard';
+
+// Hero Section
+.hero {
+  position: relative;
+  padding: 5rem 0;
+  overflow: hidden;
+  
+  @include responsive(lg) {
+    padding: 8rem 0;
+  }
+  
+  &__bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #eff6ff, #f3e8ff 50%, #fdf2f8);
+    
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMwMDAiIGZpbGwtb3BhY2l0eT0iLjAyIj48cGF0aCBkPSJNMzYgMzRjMC0yIDItNCAyLTRzLTItMi00LTJjLTIgMC00IDItNCAycy0yIDItMiA0IDIgNCAyIDQgMiAyIDQgMmMyIDAgNC0yIDQtMnMyLTIgMi00eiIvPjwvZz48L2c+PC9zdmc+");
+      opacity: 0.5;
+    }
+  }
+  
+  &__container {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+    
+    @include responsive(lg) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  &__content {
+    text-align: center;
+    
+    @include responsive(lg) {
+      text-align: left;
+    }
+  }
+  
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #dbeafe;
+    color: #1d4ed8;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 9999px;
+    margin-bottom: 1.5rem;
+  }
+  
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    
+    @include responsive(md) {
+      font-size: 3rem;
+    }
+    
+    @include responsive(lg) {
+      font-size: 3.75rem;
+    }
+    
+    span {
+      display: block;
+      @include gradient-text;
+    }
+  }
+  
+  &__description {
+    font-size: 1.125rem;
+    color: #64748b;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    
+    @include responsive(lg) {
+      margin-left: 0;
+    }
+  }
+  
+  &__actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    
+    @include responsive(lg) {
+      justify-content: flex-start;
+    }
+  }
+  
+  &__animation {
+    @include flex-center;
+    
+    &-wrapper {
+      position: relative;
+      width: 20rem;
+      height: 20rem;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: $gradient-primary;
+        border-radius: 50%;
+        opacity: 0.2;
+        filter: blur(60px);
+        animation: pulse 3s infinite;
+      }
+    }
+  }
+}
+
+// Services Section
+.services {
+  padding: 5rem 0;
+  background: white;
+  
+  &__header {
+    text-align: center;
+    margin-bottom: 3rem;
+    
+    h2 {
+      font-size: 1.875rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    
+    p {
+      color: #64748b;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+  
+  &__grid {
+    display: grid;
+    gap: 1.5rem;
+    
+    @include responsive(md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include responsive(lg) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  &__card {
+    background: white;
+    border-radius: $border-radius-xl;
+    padding: 1.5rem;
+    box-shadow: $shadow-lg;
+    @include card-hover;
+    
+    &-icon {
+      width: 3rem;
+      height: 3rem;
+      @include flex-center;
+      border-radius: $border-radius-lg;
+      margin-bottom: 1rem;
+      
+      &--blue {
+        background: #dbeafe;
+        color: $primary-blue;
+      }
+      
+      &--purple {
+        background: #f3e8ff;
+        color: $primary-purple;
+      }
+      
+      &--pink {
+        background: #fce7f3;
+        color: $primary-pink;
+      }
+      
+      &--green {
+        background: #dcfce7;
+        color: $primary-green;
+      }
+    }
+    
+    h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    p {
+      font-size: 0.875rem;
+      color: #64748b;
+    }
+  }
+}
+
+// Stats Banner
+.stats-banner {
+  padding: 5rem 0;
+  background: $gradient-primary;
+  color: white;
+  
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    
+    @include responsive(md) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  &__item {
+    text-align: center;
+    
+    &-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      
+      @include responsive(md) {
+        font-size: 3rem;
+      }
+    }
+    
+    &-label {
+      opacity: 0.9;
+    }
+  }
+}
+
+// Footer
+.footer {
+  padding: 3rem 0;
+  background: #0f172a;
+  color: white;
+  
+  &__container {
+    @include flex-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  &__logo {
+    @include flex-center;
+    gap: 0.5rem;
+    font-weight: 700;
+  }
+  
+  &__copyright {
+    color: #64748b;
+    font-size: 0.875rem;
+  }
+}
+
+// Student Home Quick Actions
+.quick-actions {
+  display: grid;
+  gap: 1rem;
+  
+  @include responsive(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @include responsive(lg) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  &__card {
+    background: white;
+    border-radius: $border-radius-xl;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: $shadow-md;
+    cursor: pointer;
+    @include card-hover;
+    
+    &-icon {
+      width: 4rem;
+      height: 4rem;
+      margin: 0 auto 1rem;
+      @include flex-center;
+      border-radius: $border-radius-xl;
+      box-shadow: $shadow-lg;
+      
+      &--blue {
+        background: $gradient-blue;
+      }
+      
+      &--purple {
+        background: $gradient-purple;
+      }
+      
+      &--pink {
+        background: $gradient-pink;
+      }
+      
+      &--green {
+        background: $gradient-green;
+      }
+      
+      svg {
+        color: white;
+        width: 2rem;
+        height: 2rem;
+      }
+    }
+    
+    h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+  }
+}

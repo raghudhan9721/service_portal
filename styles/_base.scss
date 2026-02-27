@@ -1,0 +1,264 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// Base Styles
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  min-height: 100vh;
+}
+
+// Typography
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.gradient-text {
+  @include gradient-text;
+}
+
+// Layout Classes
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  
+  @include responsive(lg) {
+    padding: 0 2rem;
+  }
+}
+
+.flex-center {
+  @include flex-center;
+}
+
+.flex-between {
+  @include flex-between;
+}
+
+// Card Styles
+.card {
+  background: white;
+  border-radius: $border-radius-xl;
+  box-shadow: $shadow-md;
+  overflow: hidden;
+  
+  &--hover {
+    @include card-hover;
+  }
+  
+  &__header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  &__content {
+    padding: 1.5rem;
+  }
+  
+  &__footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #e2e8f0;
+    background: #f8fafc;
+  }
+}
+
+// Form Styles
+.form-group {
+  margin-bottom: 1rem;
+  
+  label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #64748b;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.input {
+  width: 100%;
+  height: 3rem;
+  padding: 0 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: $border-radius-lg;
+  font-size: 1rem;
+  transition: all $transition-fast;
+  outline: none;
+  
+  &:focus {
+    border-color: $primary-blue;
+    box-shadow: 0 0 0 3px rgba($primary-blue, 0.1);
+  }
+  
+  &::placeholder {
+    color: #94a3b8;
+  }
+  
+  &--error {
+    border-color: $primary-red;
+    
+    &:focus {
+      box-shadow: 0 0 0 3px rgba($primary-red, 0.1);
+    }
+  }
+}
+
+.textarea {
+  @extend .input;
+  height: auto;
+  min-height: 100px;
+  padding: 0.75rem 1rem;
+  resize: vertical;
+}
+
+// Button Styles
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: $border-radius-lg;
+  cursor: pointer;
+  transition: all $transition-fast;
+  border: none;
+  outline: none;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  &--primary {
+    @include button-gradient($primary-blue, darken($primary-blue, 10%));
+  }
+  
+  &--purple {
+    @include button-gradient($primary-purple, darken($primary-purple, 10%));
+  }
+  
+  &--green {
+    @include button-gradient($primary-green, darken($primary-green, 10%));
+  }
+  
+  &--danger {
+    @include button-gradient($primary-red, darken($primary-red, 10%));
+  }
+  
+  &--outline {
+    background: transparent;
+    border: 2px solid #e2e8f0;
+    color: #475569;
+    
+    &:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+  }
+  
+  &--ghost {
+    background: transparent;
+    color: #475569;
+    
+    &:hover {
+      background: #f1f5f9;
+    }
+  }
+  
+  &--lg {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+  
+  &--sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+  
+  &--full {
+    width: 100%;
+  }
+}
+
+// Badge Styles
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  
+  &--pending {
+    background: #fef3c7;
+    color: #92400e;
+  }
+  
+  &--approved {
+    background: #dcfce7;
+    color: #166534;
+  }
+  
+  &--rejected {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+  
+  &--info {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+}
+
+// Glass Effect
+.glass {
+  @include glass-effect;
+}
+
+// Animation Classes
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.3s ease;
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
+}

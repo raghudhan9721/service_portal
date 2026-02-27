@@ -1,0 +1,159 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// File Upload Component
+.file-upload {
+  &__container {
+    border: 2px dashed #e2e8f0;
+    border-radius: $border-radius-xl;
+    padding: 2rem;
+    text-align: center;
+    transition: all $transition-normal;
+    cursor: pointer;
+    
+    &:hover {
+      border-color: $primary-blue;
+      background: #f8fafc;
+    }
+    
+    &--dragging {
+      border-color: $primary-blue;
+      background: #eff6ff;
+      border-style: solid;
+    }
+    
+    &--has-file {
+      border-color: $primary-green;
+      background: #f0fdf4;
+    }
+  }
+  
+  &__icon {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto 1rem;
+    @include flex-center;
+    background: #f1f5f9;
+    border-radius: 50%;
+    color: #64748b;
+    transition: all $transition-normal;
+    
+    svg {
+      width: 2rem;
+      height: 2rem;
+    }
+    
+    .file-upload__container:hover & {
+      background: #dbeafe;
+      color: $primary-blue;
+    }
+    
+    .file-upload__container--has-file & {
+      background: #dcfce7;
+      color: $primary-green;
+    }
+  }
+  
+  &__text {
+    h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 0.5rem;
+    }
+    
+    p {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-bottom: 0.25rem;
+    }
+    
+    small {
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+  }
+  
+  &__input {
+    display: none;
+  }
+  
+  &__file-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    background: white;
+    border-radius: $border-radius-md;
+    border: 1px solid #e2e8f0;
+    
+    svg {
+      color: $primary-green;
+    }
+    
+    span {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    
+    button {
+      @include flex-center;
+      padding: 0.25rem;
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      
+      &:hover {
+        color: $primary-red;
+      }
+    }
+  }
+  
+  &__preview {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: $border-radius-md;
+    max-height: 200px;
+    overflow-y: auto;
+    
+    table {
+      width: 100%;
+      font-size: 0.75rem;
+      
+      th {
+        text-align: left;
+        padding: 0.5rem;
+        background: #e2e8f0;
+        font-weight: 600;
+      }
+      
+      td {
+        padding: 0.5rem;
+        border-bottom: 1px solid #e2e8f0;
+      }
+    }
+  }
+}
+
+// Upload Section
+.upload-section {
+  &__header {
+    @include flex-between;
+    margin-bottom: 1rem;
+    
+    h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+  }
+  
+  &__actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+}
