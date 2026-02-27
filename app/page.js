@@ -1382,7 +1382,404 @@ Jane Smith,jane@example.com,CS002,Computer Science"
     </div>
   )
 
-  // Student Department Page
+  // Student Profile Page - New beautiful design with edit capability
+  const StudentProfile = () => (
+    <div className="min-h-screen py-8 bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30">
+      <div className="container mx-auto px-4">
+        {/* Header Section */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">My Profile</h1>
+          <p className="text-muted-foreground">View and manage your personal information</p>
+        </div>
+
+        {/* Profile Header Card */}
+        <Card className="mb-6 overflow-hidden border-0 shadow-xl">
+          <div className="h-32 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 relative">
+            <div className="absolute inset-0 bg-black/10" />
+            <div className="absolute -bottom-16 left-8">
+              <div className="w-32 h-32 rounded-2xl bg-white shadow-2xl flex items-center justify-center border-4 border-white">
+                <div className="w-28 h-28 rounded-xl bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+                  <span className="text-4xl font-bold text-white">
+                    {user?.name?.charAt(0)?.toUpperCase() || 'S'}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <CardContent className="pt-20 pb-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <h2 className="text-2xl font-bold">{user?.name || 'Student Name'}</h2>
+                <p className="text-muted-foreground flex items-center gap-2 mt-1">
+                  <GraduationCap className="w-4 h-4" />
+                  {user?.department || 'Department'} • Roll No: {user?.rollNo || 'N/A'}
+                </p>
+              </div>
+              <Button 
+                onClick={() => {
+                  if (isEditingProfile) {
+                    handleUpdateProfile()
+                  } else {
+                    setIsEditingProfile(true)
+                  }
+                }}
+                disabled={isLoading}
+                className={isEditingProfile 
+                  ? "bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700" 
+                  : "bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+                }
+              >
+                {isLoading ? (
+                  <>Saving...</>
+                ) : isEditingProfile ? (
+                  <><Save className="w-4 h-4 mr-2" /> Save Changes</>
+                ) : (
+                  <><Edit3 className="w-4 h-4 mr-2" /> Edit Profile</>
+                )}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Left Column - Basic Info */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Academic Information - Read Only */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader className="border-b bg-gradient-to-r from-blue-50 to-purple-50">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                    <GraduationCap className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-lg">Academic Information</CardTitle>
+                    <CardDescription>Your enrollment details (Read-only)</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-sm flex items-center gap-2">
+                      <Lock className="w-3 h-3" /> Email ID
+                    </Label>
+                    <div className="p-3 rounded-lg bg-slate-50 border">
+                      <p className="font-medium">{user?.email || 'Not provided'}</p>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-sm flex items-center gap-2">
+                      <Lock className="w-3 h-3" /> Roll Number
+                    </Label>
+                    <div className="p-3 rounded-lg bg-slate-50 border">
+                      <p className="font-medium">{user?.rollNo || 'Not provided'}</p>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-sm flex items-center gap-2">
+                      <Lock className="w-3 h-3" /> Department
+                    </Label>
+                    <div className="p-3 rounded-lg bg-slate-50 border">
+                      <p className="font-medium">{user?.department || 'Not provided'}</p>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-sm flex items-center gap-2">
+                      <Lock className="w-3 h-3" /> Student ID
+                    </Label>
+                    <div className="p-3 rounded-lg bg-slate-50 border">
+                      <p className="font-medium text-sm">{user?.id || 'Not provided'}</p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Personal Information - Editable */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader className="border-b bg-gradient-to-r from-purple-50 to-pink-50">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center">
+                    <User className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-lg">Personal Information</CardTitle>
+                    <CardDescription>Update your personal details</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-sm">Full Name</Label>
+                    {isEditingProfile ? (
+                      <Input
+                        value={profileForm.name}
+                        onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
+                        placeholder="Enter your full name"
+                        className="border-2 focus:border-purple-400"
+                      />
+                    ) : (
+                      <div className="p-3 rounded-lg bg-slate-50 border">
+                        <p className="font-medium">{user?.name || 'Not provided'}</p>
+                      </div>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-sm">Phone Number</Label>
+                    {isEditingProfile ? (
+                      <Input
+                        value={profileForm.phone}
+                        onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
+                        placeholder="Enter phone number"
+                        className="border-2 focus:border-purple-400"
+                      />
+                    ) : (
+                      <div className="p-3 rounded-lg bg-slate-50 border">
+                        <p className="font-medium">{user?.phone || 'Not provided'}</p>
+                      </div>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-sm">Date of Birth</Label>
+                    {isEditingProfile ? (
+                      <Input
+                        type="date"
+                        value={profileForm.dateOfBirth}
+                        onChange={(e) => setProfileForm({ ...profileForm, dateOfBirth: e.target.value })}
+                        className="border-2 focus:border-purple-400"
+                      />
+                    ) : (
+                      <div className="p-3 rounded-lg bg-slate-50 border">
+                        <p className="font-medium">{user?.dateOfBirth || 'Not provided'}</p>
+                      </div>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-sm">Blood Group</Label>
+                    {isEditingProfile ? (
+                      <Select 
+                        value={profileForm.bloodGroup} 
+                        onValueChange={(v) => setProfileForm({ ...profileForm, bloodGroup: v })}
+                      >
+                        <SelectTrigger className="border-2 focus:border-purple-400">
+                          <SelectValue placeholder="Select blood group" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map((bg) => (
+                            <SelectItem key={bg} value={bg}>{bg}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <div className="p-3 rounded-lg bg-slate-50 border">
+                        <p className="font-medium">{user?.bloodGroup || 'Not provided'}</p>
+                      </div>
+                    )}
+                  </div>
+                  <div className="space-y-2 sm:col-span-2">
+                    <Label className="text-muted-foreground text-sm">Address</Label>
+                    {isEditingProfile ? (
+                      <Textarea
+                        value={profileForm.address}
+                        onChange={(e) => setProfileForm({ ...profileForm, address: e.target.value })}
+                        placeholder="Enter your complete address"
+                        className="border-2 focus:border-purple-400"
+                        rows={3}
+                      />
+                    ) : (
+                      <div className="p-3 rounded-lg bg-slate-50 border min-h-[80px]">
+                        <p className="font-medium">{user?.address || 'Not provided'}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Guardian Information - Editable */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader className="border-b bg-gradient-to-r from-green-50 to-teal-50">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
+                    <Users className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-lg">Guardian Information</CardTitle>
+                    <CardDescription>Your guardian/parent details</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-sm">Guardian Name</Label>
+                    {isEditingProfile ? (
+                      <Input
+                        value={profileForm.guardianName}
+                        onChange={(e) => setProfileForm({ ...profileForm, guardianName: e.target.value })}
+                        placeholder="Enter guardian's name"
+                        className="border-2 focus:border-green-400"
+                      />
+                    ) : (
+                      <div className="p-3 rounded-lg bg-slate-50 border">
+                        <p className="font-medium">{user?.guardianName || 'Not provided'}</p>
+                      </div>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground text-sm">Guardian Phone</Label>
+                    {isEditingProfile ? (
+                      <Input
+                        value={profileForm.guardianPhone}
+                        onChange={(e) => setProfileForm({ ...profileForm, guardianPhone: e.target.value })}
+                        placeholder="Enter guardian's phone"
+                        className="border-2 focus:border-green-400"
+                      />
+                    ) : (
+                      <div className="p-3 rounded-lg bg-slate-50 border">
+                        <p className="font-medium">{user?.guardianPhone || 'Not provided'}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Right Column - Quick Stats */}
+          <div className="space-y-6">
+            {/* Profile Completion Card */}
+            <Card className="border-0 shadow-lg overflow-hidden">
+              <div className="h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500" />
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-yellow-500" />
+                  Profile Status
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Profile completion</span>
+                    <span className="font-semibold text-green-600">
+                      {Math.round(
+                        ([user?.name, user?.email, user?.phone, user?.address, user?.guardianName]
+                          .filter(Boolean).length / 5) * 100
+                      )}%
+                    </span>
+                  </div>
+                  <Progress 
+                    value={[user?.name, user?.email, user?.phone, user?.address, user?.guardianName]
+                      .filter(Boolean).length / 5 * 100} 
+                    className="h-2"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Complete your profile to access all services
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Quick Stats */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <BarChart3 className="w-5 h-5 text-blue-500" />
+                  My Activity
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-blue-50 to-blue-100">
+                    <div className="flex items-center gap-3">
+                      <FileText className="w-5 h-5 text-blue-600" />
+                      <span className="text-sm font-medium">Total Requests</span>
+                    </div>
+                    <Badge className="bg-blue-500">{requests.length}</Badge>
+                  </div>
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-yellow-50 to-yellow-100">
+                    <div className="flex items-center gap-3">
+                      <Clock className="w-5 h-5 text-yellow-600" />
+                      <span className="text-sm font-medium">Pending</span>
+                    </div>
+                    <Badge className="bg-yellow-500">{requests.filter(r => r.status === 'pending').length}</Badge>
+                  </div>
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-green-50 to-green-100">
+                    <div className="flex items-center gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-green-600" />
+                      <span className="text-sm font-medium">Approved</span>
+                    </div>
+                    <Badge className="bg-green-500">{requests.filter(r => r.status === 'approved').length}</Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Quick Actions */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Star className="w-5 h-5 text-purple-500" />
+                  Quick Actions
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <Button 
+                  className="w-full justify-start bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700" 
+                  onClick={() => setCurrentPage('student-services')}
+                >
+                  <FileCheck className="w-4 h-4 mr-2" /> Request Certificate
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start" 
+                  onClick={() => setCurrentPage('student-home')}
+                >
+                  <Home className="w-4 h-4 mr-2" /> Go to Dashboard
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Edit Mode Actions */}
+            {isEditingProfile && (
+              <Card className="border-2 border-dashed border-yellow-400 bg-yellow-50/50">
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Edit3 className="w-5 h-5 text-yellow-600" />
+                    <span className="font-medium text-yellow-800">Edit Mode Active</span>
+                  </div>
+                  <p className="text-sm text-yellow-700 mb-4">
+                    You can now edit your personal information. Click "Save Changes" when done.
+                  </p>
+                  <Button 
+                    variant="outline" 
+                    className="w-full border-yellow-400 text-yellow-700 hover:bg-yellow-100"
+                    onClick={() => {
+                      setIsEditingProfile(false)
+                      setProfileForm({
+                        name: user?.name || '',
+                        phone: user?.phone || '',
+                        address: user?.address || '',
+                        dateOfBirth: user?.dateOfBirth || '',
+                        guardianName: user?.guardianName || '',
+                        guardianPhone: user?.guardianPhone || '',
+                        bloodGroup: user?.bloodGroup || ''
+                      })
+                    }}
+                  >
+                    <X className="w-4 h-4 mr-2" /> Cancel Editing
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
+  // Student Department Page (kept for backward compatibility)
   const StudentDepartment = () => (
     <div className="min-h-screen py-8">
       <div className="container mx-auto px-4">
