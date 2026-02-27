@@ -354,6 +354,130 @@ class APITester:
         except Exception as e:
             self.log_test("Services", False, f"Exception: {str(e)}")
             return False
+
+    def test_get_single_student(self):
+        """Test GET /api/students/:id - Get single student by UUID"""
+        if not self.student_data or 'id' not in self.student_data:
+            self.log_test("Get Single Student", False, "No student data with ID available")
+            return False
+            
+        try:
+            student_id = self.student_data['id']
+            response = self.session.get(f"{self.base_url}/students/{student_id}")
+            
+            if response.status_code == 200:
+                data = response.json()
+                if 'id' in data and data['id'] == student_id:
+                    self.log_test("Get Single Student", True, f"Retrieved student: {data.get('name', 'Unknown')}")
+                    return True
+                else:
+                    self.log_test("Get Single Student", False, "Invalid response format or ID mismatch")
+                    return False
+            else:
+                self.log_test("Get Single Student", False, f"Status: {response.status_code}, Response: {response.text}")
+                return False
+        except Exception as e:
+            self.log_test("Get Single Student", False, f"Exception: {str(e)}")
+            return False
+
+    def test_update_student_profile(self):
+        """Test PUT /api/students/:id - Update student profile"""
+        if not self.student_data or 'id' not in self.student_data:
+            self.log_test("Update Student Profile", False, "No student data with ID available")
+            return False
+            
+        try:
+            student_id = self.student_data['id']
+            update_data = {
+                "phone": "9876543210",
+                "address": "123 Test Street, Test City",
+                "bloodGroup": "A+",
+                "guardianName": "Test Guardian",
+                "guardianPhone": "9876543211"
+            }
+            
+            response = self.session.put(f"{self.base_url}/students/{student_id}", json=update_data)
+            
+            if response.status_code == 200:
+                data = response.json()
+                if ('phone' in data and data['phone'] == update_data['phone'] and 
+                    'address' in data and data['address'] == update_data['address'] and
+                    'bloodGroup' in data and data['bloodGroup'] == update_data['bloodGroup']):
+                    self.log_test("Update Student Profile", True, f"Student profile updated successfully")
+                    # Update student_data for verification test
+                    self.student_data.update(update_data)
+                    return True
+                else:
+                    self.log_test("Update Student Profile", False, "Profile fields not updated correctly")
+                    return False
+            else:
+                self.log_test("Update Student Profile", False, f"Status: {response.status_code}, Response: {response.text}")
+                return False
+        except Exception as e:
+            self.log_test("Update Student Profile", False, f"Exception: {str(e)}")
+            return False
+
+    def test_verify_student_update(self):
+        """Test GET /api/students/:id again to verify the update"""
+        if not self.student_data or 'id' not in self.student_data:
+            self.log_test("Verify Student Update", False, "No student data with ID available")
+            return False
+            
+        try:
+            student_id = self.student_data['id']
+            response = self.session.get(f"{self.base_url}/students/{student_id}")
+            
+            if response.status_code == 200:
+                data = response.json()
+                expected_phone = "9876543210"
+                expected_address = "123 Test Street, Test City"
+                expected_blood_group = "A+"
+                
+                if (data.get('phone') == expected_phone and 
+                    data.get('address') == expected_address and
+                    data.get('bloodGroup') == expected_blood_group):
+                    self.log_test("Verify Student Update", True, f"Update verification successful - all fields persisted")
+                    return True
+                else:
+                    self.log_test("Verify Student Update", False, f"Update not persisted. Phone: {data.get('phone')}, Address: {data.get('address')}, BloodGroup: {data.get('bloodGroup')}")
+                    return False
+            else:
+                self.log_test("Verify Student Update", False, f"Status: {response.status_code}")
+                return False
+        except Exception as e:
+            self.log_test("Verify Student Update", False, f"Exception: {str(e)}")
+            return False
+
+    def test_get_student_invalid_uuid(self):
+        """Test GET /api/students/invalid-uuid - Should return 404"""
+        try:
+            response = self.session.get(f"{self.base_url}/students/invalid-uuid-123")
+            
+            if response.status_code == 404:
+                self.log_test("Get Student Invalid UUID", True, "Correctly returned 404 for invalid UUID")
+                return True
+            else:
+                self.log_test("Get Student Invalid UUID", False, f"Expected 404 but got: {response.status_code}")
+                return False
+        except Exception as e:
+            self.log_test("Get Student Invalid UUID", False, f"Exception: {str(e)}")
+            return False
+
+    def test_update_student_invalid_uuid(self):
+        """Test PUT /api/students/invalid-uuid - Should return 404"""
+        try:
+            update_data = {"phone": "1234567890"}
+            response = self.session.put(f"{self.base_url}/students/invalid-uuid-123", json=update_data)
+            
+            if response.status_code == 404:
+                self.log_test("Update Student Invalid UUID", True, "Correctly returned 404 for invalid UUID")
+                return True
+            else:
+                self.log_test("Update Student Invalid UUID", False, f"Expected 404 but got: {response.status_code}")
+                return False
+        except Exception as e:
+            self.log_test("Update Student Invalid UUID", False, f"Exception: {str(e)}")
+            return False
     
     def run_all_tests(self):
         """Run all backend tests in sequence"""
