@@ -207,6 +207,18 @@ backend:
         agent: "testing"
         comment: "Services API working correctly. Returns 4 default services (Bonafide Certificate, Fee Structure, Transfer Certificate, NOC) with proper structure including id, name, enabled status, and description."
 
+  - task: "Student Profile API - GET and PUT"
+    implemented: true
+    working: "NA"
+    file: "app/api/[[...path]]/route.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented GET /api/students/:id to fetch single student and PUT /api/students/:id to update student profile (name, phone, address, dateOfBirth, guardianName, guardianPhone, bloodGroup). Need testing."
+
 frontend:
   - task: "Public Website (Home, About, Courses)"
     implemented: true
