@@ -323,6 +323,16 @@ export default function App() {
     } else if (user?.role === 'student') {
       fetchMyRequests()
       fetchFeeStructures()
+      // Initialize profile form with user data
+      setProfileForm({
+        name: user.name || '',
+        phone: user.phone || '',
+        address: user.address || '',
+        dateOfBirth: user.dateOfBirth || '',
+        guardianName: user.guardianName || '',
+        guardianPhone: user.guardianPhone || '',
+        bloodGroup: user.bloodGroup || ''
+      })
     }
   }, [user])
 
