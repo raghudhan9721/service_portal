@@ -20,7 +20,8 @@ import {
   Upload, FileText, CreditCard, FileCheck, FileX, Clock,
   CheckCircle2, XCircle, Building2, UserCircle, Mail, Hash,
   ChevronRight, Shield, Award, Briefcase, Send, Eye, Settings,
-  BarChart3, PieChart, TrendingUp, Calendar, Bell, Menu, X, Download
+  BarChart3, PieChart, TrendingUp, Calendar, Bell, Menu, X, Download,
+  Phone, MapPin, Heart, User, Edit3, Save, Sparkles, Star, Lock
 } from 'lucide-react'
 
 // Lottie animation URLs
