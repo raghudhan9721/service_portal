@@ -1,5 +1,4 @@
 import './globals.css';
-import '@/styles/main.scss';
 import { Toaster } from '@/components/ui/sonner';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
