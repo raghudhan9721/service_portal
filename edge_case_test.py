@@ -9,7 +9,7 @@ import json
 import sys
 from datetime import datetime
 
-BASE_URL = "https://eduportal-365.preview.emergentagent.com/api"
+BASE_URL = "https://agent-alarm-3.preview.emergentagent.com/api"
 
 class EdgeCaseTester:
     def __init__(self):

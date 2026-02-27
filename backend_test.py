@@ -11,7 +11,7 @@ import os
 from datetime import datetime
 
 # Get base URL from environment
-BASE_URL = "https://eduportal-365.preview.emergentagent.com/api"
+BASE_URL = "https://agent-alarm-3.preview.emergentagent.com/api"
 
 class APITester:
     def __init__(self):
