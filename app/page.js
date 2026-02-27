@@ -743,8 +743,8 @@ export default function App() {
                   <Button variant="ghost" onClick={() => { setCurrentPage('student-home'); setMobileMenuOpen(false) }} className="justify-start">
                     <Home className="w-4 h-4 mr-2" /> Home
                   </Button>
-                  <Button variant="ghost" onClick={() => { setCurrentPage('student-department'); setMobileMenuOpen(false) }} className="justify-start">
-                    <Building2 className="w-4 h-4 mr-2" /> Department
+                  <Button variant="ghost" onClick={() => { setCurrentPage('student-profile'); setMobileMenuOpen(false) }} className="justify-start">
+                    <UserCircle className="w-4 h-4 mr-2" /> Profile
                   </Button>
                   <Button variant="ghost" onClick={() => { setCurrentPage('student-services'); setMobileMenuOpen(false) }} className="justify-start">
                     <FileText className="w-4 h-4 mr-2" /> Services
