@@ -675,8 +675,8 @@ export default function App() {
                 <Button variant="ghost" onClick={() => setCurrentPage('student-home')} className={currentPage === 'student-home' ? 'bg-blue-50 text-blue-600' : ''}>
                   <Home className="w-4 h-4 mr-2" /> Home
                 </Button>
-                <Button variant="ghost" onClick={() => setCurrentPage('student-department')} className={currentPage === 'student-department' ? 'bg-blue-50 text-blue-600' : ''}>
-                  <Building2 className="w-4 h-4 mr-2" /> Department
+                <Button variant="ghost" onClick={() => setCurrentPage('student-profile')} className={currentPage === 'student-profile' ? 'bg-blue-50 text-blue-600' : ''}>
+                  <UserCircle className="w-4 h-4 mr-2" /> Profile
                 </Button>
                 <Button variant="ghost" onClick={() => setCurrentPage('student-services')} className={currentPage === 'student-services' ? 'bg-blue-50 text-blue-600' : ''}>
                   <FileText className="w-4 h-4 mr-2" /> Services
